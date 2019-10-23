@@ -6,29 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 @TeleOp
-public class BoxHolonomic extends OpMode{
-    private DcMotor leftFront;
-    private DcMotor rightFront;
-    private DcMotor leftBack;
-    private DcMotor rightBack;
-    public void init(){
-        leftFront  = hardwareMap.dcMotor.get("leftFront");
-        rightFront = hardwareMap.dcMotor.get("rightFront");
-        leftBack = hardwareMap.dcMotor.get("leftRear");
-        rightBack  = hardwareMap.dcMotor.get("rightRear");
+public class BoxHolonomic extends BoxHTeleOpHandler{
 
-        //
-        // Reverse the motors on the right side
-        //
-        leftFront.setDirection(DcMotor.Direction.FORWARD);
-        leftBack.setDirection(DcMotor.Direction.FORWARD);
-        rightFront.setDirection(DcMotor.Direction.REVERSE);
-        rightBack.setDirection(DcMotor.Direction.REVERSE);
-    }
-    public void loop(){
-        handleGamepad1(gamepad1);
-
-    }
     public void handleGamepad1(Gamepad gamepad){
        double rStickX;
        double rStickY;

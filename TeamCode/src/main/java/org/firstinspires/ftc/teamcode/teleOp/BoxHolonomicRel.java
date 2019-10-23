@@ -12,47 +12,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 @TeleOp
-public class BoxHolonomicRel extends OpMode{
-    private DcMotor leftFront;
-    private DcMotor rightFront;
-    private DcMotor leftBack;
-    private DcMotor rightBack;
-    BNO055IMU imu;
+public class BoxHolonomicRel extends BoxHTeleOpHandler{
 
-
-    public void init(){
-        leftFront  = hardwareMap.dcMotor.get("leftFront");
-        rightFront = hardwareMap.dcMotor.get("rightFront");
-        leftBack = hardwareMap.dcMotor.get("leftRear");
-        rightBack  = hardwareMap.dcMotor.get("rightRear");
-
-        //
-        // Reverse the motors on the right side
-        //
-        leftFront.setDirection(DcMotor.Direction.FORWARD);
-        leftBack.setDirection(DcMotor.Direction.FORWARD);
-        rightFront.setDirection(DcMotor.Direction.REVERSE);
-        rightBack.setDirection(DcMotor.Direction.REVERSE);
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-
-        parameters.mode           = BNO055IMU.SensorMode.IMU;
-        parameters.angleUnit      = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit      = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.loggingEnabled = false;
-
-        //
-        // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
-        // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
-        // and named "imu".
-        //
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
-
-        imu.initialize(parameters);
-    }
-    public void loop(){
-        handleGamepad1(gamepad1);
-
-    }
     public void handleGamepad1(Gamepad gamepad){
        double rStickX;
        double rStickY;
