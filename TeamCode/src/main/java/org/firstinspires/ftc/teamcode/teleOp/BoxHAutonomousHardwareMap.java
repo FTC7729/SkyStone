@@ -55,6 +55,21 @@ public class BoxHAutonomousHardwareMap {
         leftBack.setPower(power);
         rightBack.setPower(-power);
     }
+
+    public void strafeLeft(double power) {
+        leftFront.setPower(-power);
+        rightFront.setPower(power);
+        leftBack.setPower(power);
+        rightBack.setPower(-power);
+    }
+
+    public void strafeRight(double power) {
+        leftFront.setPower(power);
+        rightFront.setPower(-power);
+        leftBack.setPower(-power);
+        rightBack.setPower(power);
+    }
+
     public void stopMotors() {
         leftFront.setPower(0);
         rightFront.setPower(0);
