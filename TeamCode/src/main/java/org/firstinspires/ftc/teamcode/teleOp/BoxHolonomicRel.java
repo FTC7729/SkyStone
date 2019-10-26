@@ -27,6 +27,12 @@ public class BoxHolonomicRel extends BoxHTeleOpHandler{
        double currentAngle;
        double totalAngle;
        Orientation angles;
+       float lTrigger;
+       float rTrigger;
+       boolean dpadLeft;
+       boolean dpadRight;
+       boolean dpadUp;
+       boolean dpadDown;
 
         //
         // Get the current relative heading of the robot
@@ -38,6 +44,13 @@ public class BoxHolonomicRel extends BoxHTeleOpHandler{
        rStickX = -gamepad.right_stick_x;
        rStickY = -gamepad.right_stick_y;
        lStickX = gamepad.left_stick_x;
+       //lTrigger = gamepad.left_trigger;
+       //rTrigger = gamepad.right_trigger;
+       dpadLeft = gamepad.dpad_left;
+       dpadRight = gamepad.dpad_right;
+       dpadUp = gamepad.dpad_up;
+       dpadDown = gamepad.dpad_down;
+
        if (lStickX > 0) {
            lStickX = Math.pow(lStickX, 1.6);
        }else{
@@ -46,6 +59,17 @@ public class BoxHolonomicRel extends BoxHTeleOpHandler{
        targetAngle = (Math.atan2(rStickY,rStickX));
        totalAngle = targetAngle + currentAngle;
 
+       if(dpadLeft){
+            strafeLeft(0.5);
+       } else if(dpadRight){
+            strafeRight(0.5);
+       } else if(dpadUp){
+           goForward(0.5);
+       } else if(dpadDown){
+            goBackward(0.5);
+       } else{
+           stopMotors();
+       }
 
        rotationPower = -lStickX;
        mag1 = Math.sqrt(Math.pow(rStickX,2) + Math.pow(rStickY,2)) * (Math.sin(totalAngle + Math.PI / 4));

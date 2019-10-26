@@ -1,11 +1,12 @@
 package org.firstinspires.ftc.teamcode.teleOp;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-public class BoxHAutonomousHardwareMap {
+public abstract class BoxHAutonomousHardwareMap extends LinearOpMode {
     public DcMotor leftFront;
     public DcMotor rightFront;
     public DcMotor leftBack;
@@ -43,6 +44,11 @@ public class BoxHAutonomousHardwareMap {
         leftBack.setPower(power);
         rightBack.setPower(power);
     }
+
+    public void goBackward(double power){
+        goForward(-power);
+    }
+
     public void turnLeft(double power) {
         leftFront.setPower(-power);
         rightFront.setPower(power);

@@ -11,13 +11,9 @@ public class BoxCStrafeTest extends TestingBoxTeleOpHandler {
         boolean dpadDown = gamepad.dpad_down;
         if(dpadLeft){
             strafeLeft(0.25);
-            telemetry.addData("Strafing","Left");
-        }
-        if(dpadRight){
+        } else if(dpadRight){
             strafeRight(0.25);
-            telemetry.addData("Strafing","Right");
-        }
-        if(dpadDown){
+        } else{
             stopMotors();
         }
         telemetry.update();
