@@ -152,6 +152,7 @@ public class VuforiaSkyStoneNavWebcamSample extends LinearOpMode {
          */
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
+        parameters.addWebcamCalibrationFile("teamwebcamcalibrations.xml");
 
         // VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
