@@ -122,6 +122,16 @@ public abstract class BoxHAutonomousHardwareMap extends LinearOpMode {
         rightBack.setPower(0);
     }
 
+    public void strafeRightEncoder(double power, double distance, double timeout)
+    {
+        encoderDrive(power,distance,-distance,-distance,distance,timeout);
+    }
+
+    public void strafeLeftEncoder(double power, double distance, double timeout)
+    {
+        encoderDrive(power,-distance, distance, distance, -distance, timeout);
+    }
+
     public void encoderDrive(double speed, double leftInches, double rightInches, double leftBackInches, double rightBackInches, double timeoutS) {
         telemetry.addData("CAUTION", "YOU'RE ILLEGAL, ENSURE THAT THE WHEEL HAS BEEN REMEASURED");
         boolean quit = true;
