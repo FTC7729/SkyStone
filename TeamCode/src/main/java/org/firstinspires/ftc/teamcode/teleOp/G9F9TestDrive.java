@@ -105,8 +105,10 @@ public abstract class G9F9TestDrive extends G9F9TeleOpHandler {
         //literally every part of this could be wrong; it isn't tested
         if (dpadUp && liftMotor.getCurrentPosition() < LIFT_MIN_POS){
             liftMotor.setPower(0.4);
+         //
         }else if (dpadDown && liftMotor.getCurrentPosition() < LIFT_MAX_POS){
             liftMotor.setPower(-0.4);
+
         }else{
             liftMotor.setPower(0);
         }
