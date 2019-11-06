@@ -1,4 +1,6 @@
-package org.firstinspires.ftc.teamcode.teleOp;
+package org.firstinspires.ftc.teamcode.Autonomous;
+
+import org.firstinspires.ftc.teamcode.teleOp.BoxHAutonomousHardwareMap;
 
 public class BoxHBlueLoadZone extends BoxHAutonomousHardwareMap {
     public void runOpMode(){

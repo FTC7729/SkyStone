@@ -1,6 +1,8 @@
-package org.firstinspires.ftc.teamcode.teleOp;
+package org.firstinspires.ftc.teamcode.Autonomous;
 
-public class BoxHRedLoadZone extends BoxHAutonomousHardwareMap {
+import org.firstinspires.ftc.teamcode.teleOp.BoxHAutonomousHardwareMap;
+
+public class BoxHRedBuildZone extends BoxHAutonomousHardwareMap {
     public void runOpMode(){
         int state = 0;
         if (state == 0){
@@ -16,7 +18,7 @@ public class BoxHRedLoadZone extends BoxHAutonomousHardwareMap {
         }
 
         if (state == 2) {
-            //strafe right 30 inches
+            //strafe left 30 inches
 
             state = 3;
         }
