@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name = "LiftTestByBandrew", group = "Teleop")
 //@Disabled
-public class LiftTestTeleOp extends LiftTest{
+public class ClawTeleOp extends ClawTest{
     private ElapsedTime runtime = new ElapsedTime();
     @Override
     public void init() {
@@ -23,22 +23,22 @@ public class LiftTestTeleOp extends LiftTest{
         float leftStickY = Range.clip(-gamepad1.left_stick_y, -1, 1);
 
         if (isButtonA) {
-            liftMotor.setPower(speed);
+            clawMotor.setPower(speed);
             telemetry.addData("Button","A");
             //A is retract
         } else if (isButtonB) {
-            liftMotor.setPower(-speed);
+            clawMotor.setPower(-speed);
             telemetry.addData("Button","B");
             //B is extend
         } else if (isButtonX) {
-            liftMotor.setPower(1);
+            clawMotor.setPower(1);
             telemetry.addData("Button","X");
             //X is retract, but with full power
         } else {
             telemetry.addData("Button","None");
-            liftMotor.setPower(0);
+            clawMotor.setPower(0);
         }
-        telemetry.addData("Lift Position",String.format("%7d", liftMotor.getCurrentPosition()));
+        telemetry.addData("Lift Position",String.format("%7d", clawMotor.getCurrentPosition()));
         telemetry.update();
     }
 
