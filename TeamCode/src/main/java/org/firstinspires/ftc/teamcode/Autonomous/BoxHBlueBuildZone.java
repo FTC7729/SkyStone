@@ -31,7 +31,7 @@ public class BoxHBlueBuildZone extends BoxHAutonomousHardwareMap {
         }
 
         if (state == 3) {
-            telemetry.addData("State","1");
+            telemetry.addData("State","3");
             telemetry.update();
             stopMotors();
             //stop!
