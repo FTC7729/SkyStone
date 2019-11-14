@@ -4,6 +4,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -23,7 +24,7 @@ public abstract class BoxHAutonomousHardwareMap extends LinearOpMode {
     static final double     ROTATIONS_PER_MINUTE    = 160 ;
     static final double     DRIVE_GEAR_REDUCTION    = 1 ;     // This is < 1.0 if geared UP
     //MUST BE REMEASURED BEFORE USE. DELETE TELEMETRY AND STUFF ONCE FIXED
-    static final double     WHEEL_DIAMETER_INCHES   = 5 ;     // For figuring circumference
+    static final double     WHEEL_DIAMETER_INCHES   = 4 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV_NEVEREST20
             * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * Math.PI);
@@ -39,6 +40,8 @@ public abstract class BoxHAutonomousHardwareMap extends LinearOpMode {
         leftBack = hardwareMap.dcMotor.get("leftRear");
         rightBack  = hardwareMap.dcMotor.get("rightRear");
 
+        //11-9: Reversed these because everything was backwards for some reason
+        //11-12: Reverse the reversal to make it right, sorry robert ://
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         leftBack.setDirection(DcMotor.Direction.FORWARD);
         rightFront.setDirection(DcMotor.Direction.REVERSE);
@@ -133,12 +136,14 @@ public abstract class BoxHAutonomousHardwareMap extends LinearOpMode {
     }
 
     public void encoderDrive(double speed, double leftInches, double rightInches, double leftBackInches, double rightBackInches, double timeoutS) {
+        /*
         telemetry.addData("CAUTION", "YOU'RE ILLEGAL, ENSURE THAT THE WHEEL HAS BEEN REMEASURED");
         boolean quit = true;
         if (quit)
         {
             return;
         }
+        */
         int newLeftTarget;
         int newRightTarget;
         int newLeftBackTarget;
