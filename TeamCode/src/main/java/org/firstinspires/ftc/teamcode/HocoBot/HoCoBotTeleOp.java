@@ -1,8 +1,10 @@
 package org.firstinspires.ftc.teamcode.HocoBot;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 @TeleOp
+@Disabled
 public class HoCoBotTeleOp extends HoCoBotTeleOpHandler {
     public void handleGamepad1(Gamepad gamepad){
         double rStickX;

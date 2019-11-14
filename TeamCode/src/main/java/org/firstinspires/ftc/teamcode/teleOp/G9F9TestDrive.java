@@ -8,7 +8,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-@TeleOp
+@TeleOp(name="Holonomic Drive", group="Teleop")
 public abstract class G9F9TestDrive extends G9F9TeleOpHandler {
     public final int LIFT_MAX_POS = -2810;
 
@@ -91,7 +91,7 @@ public abstract class G9F9TestDrive extends G9F9TeleOpHandler {
 
     }
 
-    public void handleGamePad2(Gamepad gamepad){
+    public void handleGamepad2(Gamepad gamepad){
         boolean dpadUp;
         boolean dpadDown;
         boolean aPress;
@@ -105,9 +105,10 @@ public abstract class G9F9TestDrive extends G9F9TeleOpHandler {
         //literally every part of this could be wrong; it isn't tested
         if (dpadUp && liftMotor.getCurrentPosition() < LIFT_MIN_POS){
             liftMotor.setPower(0.4);
-         //
+            //down
         }else if (dpadDown && liftMotor.getCurrentPosition() < LIFT_MAX_POS){
             liftMotor.setPower(-0.4);
+            //up
 
         }else{
             liftMotor.setPower(0);
