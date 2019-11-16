@@ -9,12 +9,18 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 @TeleOp(name="Holonomic Drive", group="Teleop")
-public abstract class G9F9TestDrive extends G9F9TeleOpHandler {
+public class G9F9TestDrive extends G9F9TeleOpHandler {
     //lift values are starting from the bottom
-    public final int LIFT_MAX_POS = -9000;
+    //LIFT_MAX_POS should be positive
+    public final int LIFT_MAX_POS = 9000;
 
-    public final int LIFT_MIN_POS = -8470;
-    
+    public final int LIFT_MIN_POS = 0;
+
+    public final int CLAW_MAX_POS = -3800;
+
+    public final int CLAW_MIN_POS = 0;
+
+
     public void handleGamepad1(Gamepad gamepad) {
         double rStickX;
         double rStickY;
@@ -103,10 +109,10 @@ public abstract class G9F9TestDrive extends G9F9TeleOpHandler {
         bPress = gamepad.b;
 
         //literally every part of this could be wrong; it isn't tested
-        if (dpadUp && liftMotor.getCurrentPosition() < LIFT_MIN_POS){
+        if (dpadUp && liftMotor.getCurrentPosition() < LIFT_MAX_POS){
             liftMotor.setPower(0.4);
             //down
-        }else if (dpadDown && liftMotor.getCurrentPosition() < LIFT_MAX_POS){
+        }else if (dpadDown && liftMotor.getCurrentPosition() > LIFT_MIN_POS){
             liftMotor.setPower(-0.4);
             //up
 
@@ -115,15 +121,18 @@ public abstract class G9F9TestDrive extends G9F9TeleOpHandler {
         }
 
         //see above comment
-        if (aPress){
+        if (aPress && clawMotor.getCurrentPosition() < CLAW_MIN_POS){
             clawMotor.setPower(0.4);
             //opens(?) claw
-        }else if (bPress){
+        }else if (bPress && clawMotor.getCurrentPosition() > CLAW_MAX_POS){
             clawMotor.setPower(-0.4);
             //closes(?) claw
         }else {
             clawMotor.setPower(0);
             //stops(!) claw
         }
+        telemetry.addData("Lift Position:", liftMotor.getCurrentPosition());
+        telemetry.addData("Claw Position:", clawMotor.getCurrentPosition());
+        telemetry.update();
     }
 }

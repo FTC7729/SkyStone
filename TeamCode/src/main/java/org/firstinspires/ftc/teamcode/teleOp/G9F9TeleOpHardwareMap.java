@@ -21,6 +21,8 @@ public abstract class G9F9TeleOpHardwareMap extends OpMode {
         rightFront = hardwareMap.dcMotor.get("rightFront");
         leftBack = hardwareMap.dcMotor.get("leftRear");
         rightBack  = hardwareMap.dcMotor.get("rightRear");
+        liftMotor = hardwareMap.dcMotor.get("liftMotor");
+        clawMotor  = hardwareMap.dcMotor.get("clawMotor");
 
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         leftBack.setDirection(DcMotor.Direction.FORWARD);
