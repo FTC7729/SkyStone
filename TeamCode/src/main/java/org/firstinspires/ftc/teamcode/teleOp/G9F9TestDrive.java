@@ -10,11 +10,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 @TeleOp(name="Holonomic Drive", group="Teleop")
 public abstract class G9F9TestDrive extends G9F9TeleOpHandler {
-    public final int LIFT_MAX_POS = -2810;
+    //lift values are starting from the bottom
+    public final int LIFT_MAX_POS = -9000;
 
-    public final int LIFT_MIN_POS = -1000;
-    //these values are WRONG
-
+    public final int LIFT_MIN_POS = -8470;
+    
     public void handleGamepad1(Gamepad gamepad) {
         double rStickX;
         double rStickY;
