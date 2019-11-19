@@ -31,6 +31,8 @@ public abstract class G9F9TeleOpHardwareMap extends OpMode {
         liftMotor.setDirection(DcMotor.Direction.FORWARD);
         clawMotor.setDirection(DcMotor.Direction.FORWARD);
 
+        clawMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //setup IMU
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
