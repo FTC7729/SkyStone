@@ -31,6 +31,12 @@ public abstract class G9F9TeleOpHardwareMap extends OpMode {
         liftMotor.setDirection(DcMotor.Direction.FORWARD);
         clawMotor.setDirection(DcMotor.Direction.FORWARD);
 
+        clawMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        clawMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         clawMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 

@@ -20,6 +20,8 @@ public class G9F9TestDrive extends G9F9TeleOpHandler {
 
     public final int CLAW_MIN_POS = 0;
 
+    public final double ROTATION_CONSTANT = 0.4;
+
 
     public void handleGamepad1(Gamepad gamepad) {
         double rStickX;
@@ -78,7 +80,7 @@ public class G9F9TestDrive extends G9F9TeleOpHandler {
             stopMotors();
         }
 
-        rotationPower = -lStickX;
+        rotationPower = -lStickX * ROTATION_CONSTANT;
         mag1 = Math.sqrt(Math.pow(rStickX,2) + Math.pow(rStickY,2)) * (Math.sin(totalAngle + Math.PI / 4));
         mag2 = Math.sqrt(Math.pow(rStickX,2) + Math.pow(rStickY,2)) * (Math.sin(totalAngle - Math.PI / 4));
 
@@ -90,9 +92,10 @@ public class G9F9TestDrive extends G9F9TeleOpHandler {
         else
             scaleDown = 1.0;
 
+
         leftFront.setPower((mag2 - rotationPower) * scaleDown);
         leftBack.setPower((mag1 - rotationPower) * scaleDown);
-        rightBack.setPower((mag2 + rotationPower) * scaleDown);
+        rightBack.setPower((mag2 + rotationPower) * scaleDown );
         rightFront.setPower((mag1 + rotationPower) * scaleDown);
 
     }
@@ -108,7 +111,6 @@ public class G9F9TestDrive extends G9F9TeleOpHandler {
         aPress = gamepad.a;
         bPress = gamepad.b;
 
-        //literally every part of this could be wrong; it isn't tested
         if (dpadUp && liftMotor.getCurrentPosition() < LIFT_MAX_POS){
             liftMotor.setPower(0.4);
             //down
@@ -123,10 +125,8 @@ public class G9F9TestDrive extends G9F9TeleOpHandler {
         //see above comment
         if (aPress && clawMotor.getCurrentPosition() < CLAW_MIN_POS){
             clawMotor.setPower(0.4);
-            //opens(?) claw
         }else if (bPress && clawMotor.getCurrentPosition() > CLAW_MAX_POS){
             clawMotor.setPower(-0.4);
-            //closes(?) claw
         }else {
             clawMotor.setPower(0);
             //stops(!) claw
