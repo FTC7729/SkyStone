@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 
-@TeleOp(name = "G9ResetMotors", group = "TeleOp")
+@TeleOp(name = "G9ResetMotors", group = "A")
 public class G9ResetMotors extends G9F9TeleOpHandler {
     public void handleGamepad1(Gamepad gamepad){
         boolean dpadUp;

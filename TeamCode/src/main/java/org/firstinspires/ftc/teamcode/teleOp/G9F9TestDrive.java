@@ -8,7 +8,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-@TeleOp(name="Holonomic Drive", group="Teleop")
+@TeleOp(name="Holonomic Drive", group="A")
 public class G9F9TestDrive extends G9F9TeleOpHandler {
     //lift values are starting from the bottom
     //LIFT_MAX_POS should be positive
