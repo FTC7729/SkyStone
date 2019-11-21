@@ -16,7 +16,7 @@ public class G9F9TestDrive extends G9F9TeleOpHandler {
 
     public final int LIFT_MIN_POS = 0;
 
-    public final int CLAW_MAX_POS = -3800;
+    public final int CLAW_MAX_POS = -3500;
 
     public final int CLAW_MIN_POS = 0;
 
