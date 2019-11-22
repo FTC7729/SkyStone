@@ -18,7 +18,7 @@ public class G9F9TestDrive extends G9F9TeleOpHandler {
 
     public final int CLAW_MAX_POS = -3500;
 
-    public final int CLAW_MIN_POS = 0;
+    public final int CLAW_MIN_POS = -400;
 
     public final double ROTATION_CONSTANT = 0.4;
 
@@ -42,6 +42,7 @@ public class G9F9TestDrive extends G9F9TeleOpHandler {
         boolean dpadRight;
         boolean dpadUp;
         boolean dpadDown;
+        boolean aPress;
 
         //
         // Get the current relative heading of the robot
@@ -59,7 +60,11 @@ public class G9F9TestDrive extends G9F9TeleOpHandler {
         dpadRight = gamepad.dpad_right;
         dpadUp = gamepad.dpad_up;
         dpadDown = gamepad.dpad_down;
+        aPress = gamepad.a;
 
+        if (aPress){
+            //imu.initialize(parameters);
+        }
         if (lStickX > 0) {
             lStickX = Math.pow(lStickX, 1.6);
         }else{
