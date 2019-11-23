@@ -22,7 +22,7 @@ public class G9F9TestDrive extends G9F9TeleOpHandler {
 
     public final double ROTATION_CONSTANT = 0.4;
 
-
+    double speedScale = 1;
     public void handleGamepad1(Gamepad gamepad) {
         double rStickX;
         double rStickY;
@@ -36,8 +36,8 @@ public class G9F9TestDrive extends G9F9TeleOpHandler {
         double currentAngle;
         double totalAngle;
         Orientation angles;
-        float lTrigger;
-        float rTrigger;
+        boolean lBumper;
+        boolean rBumper;
         boolean dpadLeft;
         boolean dpadRight;
         boolean dpadUp;
@@ -51,16 +51,17 @@ public class G9F9TestDrive extends G9F9TeleOpHandler {
         currentAngle = (double) angles.firstAngle;
         telemetry.addData("Heading: ", "%.3f", currentAngle);
 
-        rStickX = -gamepad.right_stick_x;
-        rStickY = -gamepad.right_stick_y;
-        lStickX = gamepad.left_stick_x;
-        //lTrigger = gamepad.left_trigger;
-        //rTrigger = gamepad.right_trigger;
+        rStickX = -gamepad.right_stick_x * speedScale;
+        rStickY = -gamepad.right_stick_y * speedScale;
+        lStickX = gamepad.left_stick_x * speedScale;
+        lBumper = gamepad.left_bumper;
+        rBumper = gamepad.right_bumper;
         dpadLeft = gamepad.dpad_left;
         dpadRight = gamepad.dpad_right;
         dpadUp = gamepad.dpad_up;
         dpadDown = gamepad.dpad_down;
         aPress = gamepad.a;
+
 
         if (aPress){
             //imu.initialize(parameters);
@@ -72,6 +73,12 @@ public class G9F9TestDrive extends G9F9TeleOpHandler {
         }
         targetAngle = (Math.atan2(rStickY,rStickX));
         totalAngle = targetAngle + currentAngle;
+        if (lBumper){ //slow drive
+            speedScale = 0.25;
+        }
+        if (rBumper){ //normal drive
+            speedScale = 1;
+        }
 
         if(dpadLeft){
             strafeLeft(0.5);
