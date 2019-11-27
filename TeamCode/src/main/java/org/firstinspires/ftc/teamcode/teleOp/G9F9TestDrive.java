@@ -16,11 +16,15 @@ public class G9F9TestDrive extends G9F9TeleOpHandler {
 
     public final int LIFT_MIN_POS = 0;
 
+    public final int LIFT_ON_FOUNDATION = 1121;
+
     public final int CLAW_MAX_POS = -3500;
 
     public final int CLAW_MIN_POS = -400;
 
     public final double ROTATION_CONSTANT = 0.4;
+
+    double subtractAngle = 0;
 
     double speedScale = 1;
     public void handleGamepad1(Gamepad gamepad) {
@@ -48,7 +52,7 @@ public class G9F9TestDrive extends G9F9TeleOpHandler {
         // Get the current relative heading of the robot
         //
         angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
-        currentAngle = (double) angles.firstAngle;
+        currentAngle = (double) angles.firstAngle - subtractAngle;
         telemetry.addData("Heading: ", "%.3f", currentAngle);
 
         rStickX = -gamepad.right_stick_x * speedScale;
@@ -64,7 +68,7 @@ public class G9F9TestDrive extends G9F9TeleOpHandler {
 
 
         if (aPress){
-            //imu.initialize(parameters);
+            subtractAngle = (double) angles.firstAngle;
         }
         if (lStickX > 0) {
             lStickX = Math.pow(lStickX, 1.6);
@@ -116,11 +120,13 @@ public class G9F9TestDrive extends G9F9TeleOpHandler {
         boolean dpadDown;
         boolean aPress;
         boolean bPress;
+        boolean xPress;
 
         dpadUp = gamepad.dpad_up;
         dpadDown = gamepad.dpad_down;
         aPress = gamepad.a;
         bPress = gamepad.b;
+        xPress = gamepad.x;
 
         if (dpadUp && liftMotor.getCurrentPosition() < LIFT_MAX_POS){
             liftMotor.setPower(1);
@@ -129,7 +135,16 @@ public class G9F9TestDrive extends G9F9TeleOpHandler {
             liftMotor.setPower(-1);
             //up
 
-        }else{
+        }else if (xPress){
+
+            //moves lift to foundation
+             if (liftMotor.getCurrentPosition() > LIFT_ON_FOUNDATION){
+              liftMotor.setPower(-0.5);
+             }
+             else if (liftMotor.getCurrentPosition() < LIFT_ON_FOUNDATION){
+               liftMotor.setPower(0.5);
+             }
+        }else {
             liftMotor.setPower(0);
         }
 
