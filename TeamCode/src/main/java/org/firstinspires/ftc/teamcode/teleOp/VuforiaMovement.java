@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.teleOp;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -86,6 +87,7 @@ public class VuforiaMovement extends BoxHTeleOpHandler {
 
 
     public void init() {
+        init(hardwareMap);
         // auto-generated method stub
         webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
 
