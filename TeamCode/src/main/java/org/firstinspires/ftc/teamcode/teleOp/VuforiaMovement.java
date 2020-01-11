@@ -88,6 +88,8 @@ public class VuforiaMovement extends BoxHTeleOpHandler {
 
     public void init() {
         init(hardwareMap);
+        telemetry.addData("Inited hardware map!","");
+        telemetry.update();
         // auto-generated method stub
         webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
 
@@ -101,6 +103,8 @@ public class VuforiaMovement extends BoxHTeleOpHandler {
         parameters.addWebcamCalibrationFile("teamwebcamcalibrations.xml");
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
 
+        telemetry.addData("Parameter stuff!","");
+        telemetry.update();
 
         /**
          * We also indicate which camera on the RC we wish to use.
@@ -140,6 +144,9 @@ public class VuforiaMovement extends BoxHTeleOpHandler {
         // For convenience, gather together all the trackable objects in one easily-iterable collection */
         allTrackables = new ArrayList<VuforiaTrackable>();
         allTrackables.addAll(targetsSkyStone);
+
+        telemetry.addData("Perimeter stuff!","");
+        telemetry.update();
 
         /**
          * In order for localization to work, we need to tell the system where each target is on the field, and
