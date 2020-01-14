@@ -32,7 +32,8 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
 public class VuforiaMovement extends BoxHTeleOpHandler {
     private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
     private static final boolean PHONE_IS_PORTRAIT = false  ;
-
+    //experimental thing here, may frick stuff up
+    //public int msStuckDetectInit     = 8000;
     /*
      * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
      * 'parameters.vuforiaLicenseKey' is initialized is for illustration only, and will not function.
@@ -87,6 +88,9 @@ public class VuforiaMovement extends BoxHTeleOpHandler {
 
 
     public void init() {
+        //line below may frick things up
+        //comments in opmode dont want this to be changed :/
+        msStuckDetectInit     = 8000;
         init(hardwareMap);
         telemetry.addData("Inited hardware map!","");
         telemetry.update();
@@ -223,6 +227,8 @@ public class VuforiaMovement extends BoxHTeleOpHandler {
                 .translation(halfField, -quadField, mmTargetHeight)
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, -90)));
 
+        telemetry.addData("Set location of pictures!","");
+        telemetry.update();
         //
         // Create a transformation matrix describing where the phone is on the robot.
         //
@@ -254,6 +260,8 @@ public class VuforiaMovement extends BoxHTeleOpHandler {
         final float CAMERA_FORWARD_DISPLACEMENT  = 4.0f * mmPerInch;   // eg: Camera is 4 Inches in front of robot-center
         final float CAMERA_VERTICAL_DISPLACEMENT = 8.0f * mmPerInch;   // eg: Camera is 8 Inches above ground
         final float CAMERA_LEFT_DISPLACEMENT     = 0;     // eg: Camera is ON the robot's center line
+        telemetry.addData("Rotated Cameraz!","");
+        telemetry.update();
 
         OpenGLMatrix robotFromCamera = OpenGLMatrix
                 .translation(CAMERA_FORWARD_DISPLACEMENT, CAMERA_LEFT_DISPLACEMENT, CAMERA_VERTICAL_DISPLACEMENT)
