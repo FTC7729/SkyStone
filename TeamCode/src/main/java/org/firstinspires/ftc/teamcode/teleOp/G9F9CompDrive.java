@@ -16,9 +16,9 @@ public class G9F9CompDrive extends G9F9TeleOpHandler {
 
     public final int LIFT_MIN_POS = 0;
 
-    public final int LIFT_ON_FOUNDATION = 1121;
+    public final int LIFT_ON_FOUNDATION = 770;
 
-    public final int CLAW_MAX_POS = -3250;
+    public final int CLAW_MAX_POS = -2400;
 
     public final int CLAW_MIN_POS = -400;
 
