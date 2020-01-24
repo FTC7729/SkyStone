@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -15,7 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 @TeleOp
 //@Disabled
 public class BoxHolonomicRel extends BoxHTeleOpHandler{
-
+    double prevTime = 0;
     public void handleGamepad1(Gamepad gamepad){
        double rStickX;
        double rStickY;
@@ -35,13 +36,16 @@ public class BoxHolonomicRel extends BoxHTeleOpHandler{
        boolean dpadRight;
        boolean dpadUp;
        boolean dpadDown;
-
+       double currentTime = System.currentTimeMillis();
+       double loopTime = currentTime - prevTime;
+       prevTime = currentTime;
         //
         // Get the current relative heading of the robot
         //
         angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
         currentAngle = (double) angles.firstAngle;
-        telemetry.addData("Heading: ", "%.3f", currentAngle);
+        //telemetry.addData("Heading: ", "%.3f", currentAngle);
+        telemetry.addData("Loop time (milliseconds): ", "%.3f", loopTime);
 
        rStickX = -gamepad.right_stick_x;
        rStickY = -gamepad.right_stick_y;
