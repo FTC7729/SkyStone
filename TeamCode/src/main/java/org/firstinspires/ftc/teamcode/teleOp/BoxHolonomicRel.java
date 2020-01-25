@@ -23,7 +23,7 @@ public class BoxHolonomicRel extends BoxHTeleOpHandler{
     double prevMag2 = 0;
     double timeSinceLastIncrement = 0;
     final double timeIncrement = 50;
-    final double powIncrement = 0.1;
+    final double powIncrement = 0.2;
     final double deadZone = 0.1;
 
     public void handleGamepad1(Gamepad gamepad){
