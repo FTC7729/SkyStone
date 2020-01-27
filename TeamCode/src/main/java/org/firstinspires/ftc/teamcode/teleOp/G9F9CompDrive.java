@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.teleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -12,15 +13,15 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 public class G9F9CompDrive extends G9F9TeleOpHandler {
     //lift values are starting from the bottom
     //LIFT_MAX_POS should be positive
-    public final int LIFT_MAX_POS = 9000;
+    public final int LIFT_MAX_POS = 6750;
 
     public final int LIFT_MIN_POS = 0;
 
     public final int LIFT_ON_FOUNDATION = 770;
 
-    public final int CLAW_MAX_POS = -2400;
+    public final int CLAW_MAX_POS = -5000;
 
-    public final int CLAW_MIN_POS = -400;
+    public final int CLAW_MIN_POS = 0;
 
     public final double ROTATION_CONSTANT = 0.4;
 
@@ -128,35 +129,35 @@ public class G9F9CompDrive extends G9F9TeleOpHandler {
         bPress = gamepad.b;
         xPress = gamepad.x;
 
-        if (dpadUp && liftMotor.getCurrentPosition() < LIFT_MAX_POS){
+        if (dpadUp) {
+            liftMotor.setTargetPosition(LIFT_MAX_POS);
+            liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             liftMotor.setPower(1);
-            //down
-        }else if (dpadDown && liftMotor.getCurrentPosition() > LIFT_MIN_POS){
-            liftMotor.setPower(-1);
-            //up
-
-        }else if (xPress){
-
-            //moves lift to foundation
-             if (liftMotor.getCurrentPosition() > LIFT_ON_FOUNDATION){
-              liftMotor.setPower(-0.5);
-             }
-             else if (liftMotor.getCurrentPosition() < LIFT_ON_FOUNDATION){
-               liftMotor.setPower(0.5);
-             }
-        }else {
+        }
+        else if (dpadDown) {
+            liftMotor.setTargetPosition(LIFT_MIN_POS);
+            liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            liftMotor.setPower(1);
+        }
+        else {
             liftMotor.setPower(0);
         }
 
         //see above comment
-        if (aPress && clawMotor.getCurrentPosition() < CLAW_MIN_POS){
-            clawMotor.setPower(1);
-        }else if (bPress && clawMotor.getCurrentPosition() > CLAW_MAX_POS){
-            clawMotor.setPower(-1);
-        }else {
-            clawMotor.setPower(0);
-            //stops(!) claw
+        if (aPress) {
+            clawMotor.setTargetPosition(CLAW_MIN_POS);
+            clawMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            clawMotor.setPower(3);
         }
+        else if (bPress) {
+            clawMotor.setTargetPosition(CLAW_MAX_POS);
+            clawMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            clawMotor.setPower(3);
+        }
+        else {
+            clawMotor.setPower(0);
+        }
+
         telemetry.addData("Lift Position:", liftMotor.getCurrentPosition());
         telemetry.addData("Claw Position:", clawMotor.getCurrentPosition());
         telemetry.update();
