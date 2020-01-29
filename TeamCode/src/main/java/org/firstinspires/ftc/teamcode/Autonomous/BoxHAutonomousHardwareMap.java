@@ -73,11 +73,17 @@ public abstract class BoxHAutonomousHardwareMap extends LinearOpMode {
     {
         Orientation angles;
         double error;
-        double k = 3/360.0;
+        double k = 1/360.0;
+        double prevTime = System.currentTimeMillis();
+        double startTime = System.currentTimeMillis();
         while(opModeIsActive()) {
+            double currentTime = System.currentTimeMillis();
+            double loopTime = currentTime - prevTime;
+            prevTime = currentTime;
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             error = target - angles.firstAngle;
             telemetry.addData("Heading",angles.firstAngle+" degrees");
+            telemetry.addData("Loop time: ",loopTime+" ms");
             telemetry.update();
             if (error == 0){
                 stopMotors();
