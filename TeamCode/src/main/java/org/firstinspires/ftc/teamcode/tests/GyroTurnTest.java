@@ -22,6 +22,8 @@ public class GyroTurnTest extends BoxHAutonomousHardwareMap {
             gyroTurn(0.5, 90);
             state = 2;
         }
-
+        if (state == 2){
+            stopMotors();
+        }
     }
 }
