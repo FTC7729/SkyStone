@@ -29,7 +29,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
 
 
 @TeleOp(name = "VuforiaMovement", group = "Vuforia")
-public class VuforiaMovement extends BoxHTeleOpHandler {
+public class VuforiaMovement extends G9F9TeleOpHandler {
     private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
     private static final boolean PHONE_IS_PORTRAIT = false  ;
     //experimental thing here, may frick stuff up
@@ -90,7 +90,7 @@ public class VuforiaMovement extends BoxHTeleOpHandler {
     public void init() {
         //line below may frick things up
         //comments in opmode dont want this to be changed :/
-        msStuckDetectInit     = 8000;
+        //msStuckDetectInit     = 8000;
         init(hardwareMap);
         telemetry.addData("Inited hardware map!","");
         telemetry.update();
@@ -409,6 +409,11 @@ public class VuforiaMovement extends BoxHTeleOpHandler {
         rightBack.setPower((mag2 + rotationPower) * scaleDown);
         rightFront.setPower((mag1 + rotationPower) * scaleDown);
 
+    }
+
+    @Override
+    public void handleGamepad2(Gamepad gamepad) {
+        
     }
 
 }
