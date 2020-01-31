@@ -13,11 +13,15 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-public abstract class BoxHAutonomousHardwareMap extends LinearOpMode {
+public abstract class G9F9AutonomousHardwareMap extends LinearOpMode {
     public DcMotor leftFront;
     public DcMotor rightFront;
     public DcMotor leftBack;
     public DcMotor rightBack;
+    public DcMotor liftMotor;
+    public DcMotor clawMotor;
+
+
     private ElapsedTime runtime = new ElapsedTime();
     static final double     COUNTS_PER_MOTOR_REV_NEVEREST40    = 1120 ;    // eg: NEVEREST 40 Motor Encoder https://www.servocity.com/neverest-40-gearmotor
     static final double     COUNTS_PER_MOTOR_REV_NEVEREST20    = 560 ;
@@ -39,23 +43,28 @@ public abstract class BoxHAutonomousHardwareMap extends LinearOpMode {
         rightFront = hardwareMap.dcMotor.get("rightFront");
         leftBack = hardwareMap.dcMotor.get("leftRear");
         rightBack  = hardwareMap.dcMotor.get("rightRear");
+        liftMotor = hardwareMap.dcMotor.get("liftMotor");
+        clawMotor  = hardwareMap.dcMotor.get("clawMotor");
 
-        //11-9: Reversed these because everything was backwards for some reason
-        //11-12: Reverse the reversal to make it right, sorry robert ://
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         leftBack.setDirection(DcMotor.Direction.FORWARD);
         rightFront.setDirection(DcMotor.Direction.REVERSE);
         rightBack.setDirection(DcMotor.Direction.REVERSE);
+        liftMotor.setDirection(DcMotor.Direction.REVERSE);
+        clawMotor.setDirection(DcMotor.Direction.FORWARD);
 
-        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        clawMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+        clawMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        clawMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //setup IMU
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -89,7 +98,7 @@ public abstract class BoxHAutonomousHardwareMap extends LinearOpMode {
                 stopMotors();
                 break;
             }
-            turnRight(k * error);
+            turnLeft(k * error);
             idle();
         }
     }

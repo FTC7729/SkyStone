@@ -4,9 +4,10 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Autonomous.BoxHAutonomousHardwareMap;
+import org.firstinspires.ftc.teamcode.Autonomous.G9F9AutonomousHardwareMap;
 
 @Autonomous
-public class GyroTurnTest extends BoxHAutonomousHardwareMap {
+public class GyroTurnTest extends G9F9AutonomousHardwareMap {
     public void runOpMode(){
         int state = 0;
         if (state == 0){
