@@ -86,12 +86,12 @@ public class VuforiaMovement extends G9F9TeleOpHandler {
     List<VuforiaTrackable> allTrackables;
     VuforiaTrackables targetsSkyStone;
 
-
+@Override
     public void init() {
         //line below may frick things up
         //comments in opmode dont want this to be changed :/
         //msStuckDetectInit     = 8000;
-        init(hardwareMap);
+        super.init(hardwareMap);
         telemetry.addData("Inited hardware map!","");
         telemetry.update();
         // auto-generated method stub
@@ -330,6 +330,15 @@ public class VuforiaMovement extends G9F9TeleOpHandler {
         }
         telemetry.update();
     }
+    @Override
+    public void init_loop()
+    {
+    }
+    @Override
+    public void start(){
+
+        //runtime.reset();
+    }
     public void stop (){
         targetsSkyStone.deactivate();
     }
@@ -413,7 +422,6 @@ public class VuforiaMovement extends G9F9TeleOpHandler {
 
     @Override
     public void handleGamepad2(Gamepad gamepad) {
-        
     }
 
 }
