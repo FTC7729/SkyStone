@@ -34,7 +34,7 @@ public abstract class G9F9AutonomousHardwareMap extends LinearOpMode {
             (WHEEL_DIAMETER_INCHES * Math.PI);
 
     //Threshold for Gyro turning so that we will not continuously attempt to reach an exact value
-    static final double THRESHOLD = 1.5;
+    static final double THRESHOLD = 1;
     BNO055IMU imu;
 
     public void init(HardwareMap hardwareMap){
@@ -82,23 +82,27 @@ public abstract class G9F9AutonomousHardwareMap extends LinearOpMode {
     {
         Orientation angles;
         double error;
-        double k = 3/360.0;
-        double prevTime = System.currentTimeMillis();
+        double k = 55/3600.0;
+        double kInt = 3/3600.0;
+        double eInt = 0;
         double startTime = System.currentTimeMillis();
+        double prevTime = System.currentTimeMillis();
         while(opModeIsActive()) {
             double currentTime = System.currentTimeMillis();
-            double loopTime = currentTime - prevTime;
+            double loopTime = (currentTime - prevTime)/1000.0; // In seconds
             prevTime = currentTime;
+            double timeElapsed = currentTime - startTime;
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             error = target - angles.firstAngle;
+            eInt += loopTime * error;
             telemetry.addData("Heading",angles.firstAngle+" degrees");
             telemetry.addData("Loop time: ",loopTime+" ms");
             telemetry.update();
-            if (error == 0){
+            if (error == 0 || timeElapsed/1000 >= 5){
                 stopMotors();
                 break;
             }
-            turnLeft(k * error);
+            turnLeft(k * error + kInt * eInt);
             idle();
         }
     }
