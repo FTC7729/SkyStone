@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.BoxHAutonomousHardwareMap;
 import org.firstinspires.ftc.teamcode.Autonomous.G9F9AutonomousHardwareMap;
 
 @Autonomous
-public class GyroTurnTest extends G9F9AutonomousHardwareMap {
+public class GyroTurnTest extends BoxHAutonomousHardwareMap {
     public void runOpMode(){
         int state = 0;
         if (state == 0){
@@ -18,15 +18,17 @@ public class GyroTurnTest extends G9F9AutonomousHardwareMap {
         }
 
         if (state == 1){
-            telemetry.addData("Turning: ", "-90 degrees");
-            telemetry.update();
-            gyroTurn(0.5, -90);
-            state = 2;
+            //telemetry.addData("Turning: ", "-90 degrees");
+            //telemetry.update();
+            strafeLeft(0.5);
         }
         if (state == 2){
+/*
             telemetry.addData("Turning: ", "90 degrees");
             telemetry.update();
-            gyroTurn(0.5, 90);
+            gyroTurn(0.5, 0);
+
+*/
             state = 3;
         }
         if (state == 3){
