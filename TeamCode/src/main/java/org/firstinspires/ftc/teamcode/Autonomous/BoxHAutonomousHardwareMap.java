@@ -72,20 +72,26 @@ public abstract class BoxHAutonomousHardwareMap extends LinearOpMode {
     public void gyroTurn (double power, double target)
     {
         Orientation angles;
+        double error;
+        double k = 6/360.0;
+        double kInt = 3/3600.0;
+        double eInt = 0;
+        double prevTime = System.currentTimeMillis();
         while(opModeIsActive()) {
+            double currentTime = System.currentTimeMillis();
+            double loopTime = (currentTime - prevTime)/1000.0; // In seconds
+            prevTime = currentTime;
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            error = target - angles.firstAngle;
+            eInt += loopTime * error;
             telemetry.addData("Heading",angles.firstAngle+" degrees");
-            if(angles.firstAngle < target - THRESHOLD) {
-                telemetry.addData("Status","Turning Left");
-                turnLeft(power);
-            } else if(angles.firstAngle > target + THRESHOLD) {
-                telemetry.addData("Status","Turning Right");
-                turnRight(power);
-            } else {
+            telemetry.addData("Loop time: ",loopTime+" ms");
+            telemetry.update();
+            if (error == 0){
                 stopMotors();
                 break;
             }
-            telemetry.update();
+            turnRight(k * error + kInt * eInt);
             idle();
         }
     }
