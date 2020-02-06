@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp(name = "LiftTestByBandrew", group = "A")
+@TeleOp(name = "Claw Test", group = "A")
 //@Disabled
 public class ClawTeleOp extends ClawTest{
     private ElapsedTime runtime = new ElapsedTime();
