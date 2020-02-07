@@ -17,7 +17,7 @@ public abstract class G9F9TeleOpHardwareMap_noIMU extends OpMode {
     //debug statement for Coach Cassie
     static final boolean WHEELS = true;
     static final boolean COMP_BOT = false;
-
+    //change to true when using comp bot
 
     public void init(HardwareMap hardwareMap){
 
