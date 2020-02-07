@@ -16,6 +16,7 @@ public abstract class G9F9TeleOpHardwareMap_noIMU extends OpMode {
 
     //debug statement for Coach Cassie
     static final boolean WHEELS = true;
+    static final boolean COMP_BOT = false;
 
 
     public void init(HardwareMap hardwareMap){
@@ -26,28 +27,37 @@ if(WHEELS) {
     rightFront = hardwareMap.dcMotor.get("rightFront");
     leftBack = hardwareMap.dcMotor.get("leftRear");
     rightBack = hardwareMap.dcMotor.get("rightRear");
-    liftMotor = hardwareMap.dcMotor.get("liftMotor");
-    clawMotor = hardwareMap.dcMotor.get("clawMotor");
+    if(COMP_BOT){
+        liftMotor = hardwareMap.dcMotor.get("liftMotor");
+        clawMotor = hardwareMap.dcMotor.get("clawMotor");
+    }
+
 
     leftFront.setDirection(DcMotor.Direction.FORWARD);
     leftBack.setDirection(DcMotor.Direction.FORWARD);
     rightFront.setDirection(DcMotor.Direction.REVERSE);
     rightBack.setDirection(DcMotor.Direction.REVERSE);
-    liftMotor.setDirection(DcMotor.Direction.FORWARD);
-    clawMotor.setDirection(DcMotor.Direction.FORWARD);
 
-    clawMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-    liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    if(COMP_BOT) {
+        liftMotor.setDirection(DcMotor.Direction.FORWARD);
+        clawMotor.setDirection(DcMotor.Direction.FORWARD);
 
-    clawMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-    liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        clawMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        clawMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
     leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-    clawMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-    liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+    if(COMP_BOT) {
+        clawMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+    }
 
     //setup IMU
     //setup IMU
