@@ -77,14 +77,33 @@ public abstract class BoxHAutonomousHardwareMap extends LinearOpMode {
         double kInt = 3/3600.0;
         double eInt = 0;
         double prevTime = System.currentTimeMillis();
+        double globalAngle = 0;
+        double lastAngle = 0;
+        double deltaAngle = 0;
         while(opModeIsActive()) {
             double currentTime = System.currentTimeMillis();
             double loopTime = (currentTime - prevTime)/1000.0; // In seconds
             prevTime = currentTime;
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            error = target - angles.firstAngle;
+            //finds the angle given by the imu [-180, 180]
+            double angle = angles.firstAngle;
+            deltaAngle = angle - lastAngle;
+
+            //adjusts the change in angle (deltaAngle) to be the actual change in angle
+            if (deltaAngle < -180){
+                deltaAngle += 360;
+            }
+            else if (deltaAngle > 180){
+                deltaAngle -= 360;
+            }
+            globalAngle += deltaAngle;
+            lastAngle = angle;
+
+            error = target - globalAngle;
             eInt += loopTime * error;
             telemetry.addData("Heading",angles.firstAngle+" degrees");
+            telemetry.addData("GlobalAngle",globalAngle+" degrees");
+            telemetry.addData("Error",error+" degrees");
             telemetry.addData("Loop time: ",loopTime+" ms");
             telemetry.update();
             if (error == 0){
@@ -121,17 +140,37 @@ public abstract class BoxHAutonomousHardwareMap extends LinearOpMode {
     }
 
     public void strafeLeft(double power) {
-        leftFront.setPower(-power);
-        rightFront.setPower(power);
-        leftBack.setPower(power);
-        rightBack.setPower(-power);
+        Orientation angles;
+        double error;
+        double k = 3/360.0;
+
+        while (opModeIsActive()) {
+            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            //finds the angle given by the imu [-180, 180]
+            double angle = angles.firstAngle;
+            error = 0 - angle;
+            leftFront.setPower((power + (error * k)));
+            rightFront.setPower(-(power + (error * k)));
+            leftBack.setPower(-(power - (error * k)));
+            rightBack.setPower((power - (error * k)));
+        }
     }
 
     public void strafeRight(double power) {
-        leftFront.setPower(power);
-        rightFront.setPower(-power);
-        leftBack.setPower(-power);
-        rightBack.setPower(power);
+        Orientation angles;
+        double error;
+        double k = 3/360.0;
+
+        while (opModeIsActive()) {
+            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            //finds the angle given by the imu [-180, 180]
+            double angle = angles.firstAngle;
+            error = 0 - angle;
+            leftFront.setPower(-(power - (error * k)));
+            rightFront.setPower((power - (error * k)));
+            leftBack.setPower((power + (error * k)));
+            rightBack.setPower(-(power + (error * k)));
+        }
     }
 
     public void stopMotors() {
