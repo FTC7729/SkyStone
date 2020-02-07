@@ -1,10 +1,13 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.AnalogSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -21,6 +24,8 @@ public abstract class G9F9AutonomousHardwareMap extends LinearOpMode {
     public DcMotor liftMotor;
     public DcMotor clawMotor;
 
+    public DistanceSensor rightDistanceSensor;
+    public DistanceSensor leftDistanceSensor;
 
     private ElapsedTime runtime = new ElapsedTime();
     static final double     COUNTS_PER_MOTOR_REV_NEVEREST40    = 1120 ;    // eg: NEVEREST 40 Motor Encoder https://www.servocity.com/neverest-40-gearmotor
@@ -45,6 +50,11 @@ public abstract class G9F9AutonomousHardwareMap extends LinearOpMode {
         rightBack  = hardwareMap.dcMotor.get("rightRear");
         liftMotor = hardwareMap.dcMotor.get("liftMotor");
         clawMotor  = hardwareMap.dcMotor.get("clawMotor");
+
+        rightDistanceSensor  = hardwareMap.get(DistanceSensor.class, "rightDistanceSensor");
+        leftDistanceSensor  = hardwareMap.get(DistanceSensor.class, "leftDistanceSensor");
+
+
 
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         leftBack.setDirection(DcMotor.Direction.FORWARD);
@@ -87,18 +97,37 @@ public abstract class G9F9AutonomousHardwareMap extends LinearOpMode {
         double eInt = 0;
         double startTime = System.currentTimeMillis();
         double prevTime = System.currentTimeMillis();
+        double globalAngle = 0;
+        double lastAngle = 0;
+        double deltaAngle = 0;
         while(opModeIsActive()) {
             double currentTime = System.currentTimeMillis();
             double loopTime = (currentTime - prevTime)/1000.0; // In seconds
             prevTime = currentTime;
-            double timeElapsed = currentTime - startTime;
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            error = target - angles.firstAngle;
+            //finds the angle given by the imu [-180, 180]
+            double angle = angles.firstAngle;
+            deltaAngle = angle - lastAngle;
+
+            //adjusts the change in angle (deltaAngle) to be the actual change in angle
+            if (deltaAngle < -180){
+                deltaAngle += 360;
+            }
+            else if (deltaAngle > 180){
+                deltaAngle -= 360;
+            }
+            globalAngle += deltaAngle;
+            lastAngle = angle;
+
+            error = target - globalAngle;
             eInt += loopTime * error;
+            if (Math.abs(error) < THRESHOLD){
+                eInt = 0;
+            }
             telemetry.addData("Heading",angles.firstAngle+" degrees");
             telemetry.addData("Loop time: ",loopTime+" ms");
             telemetry.update();
-            if (error == 0 || timeElapsed/1000 >= 5){
+            if (error == 0){
                 stopMotors();
                 break;
             }
@@ -132,17 +161,41 @@ public abstract class G9F9AutonomousHardwareMap extends LinearOpMode {
     }
 
     public void strafeLeft(double power) {
-        leftFront.setPower(-power);
-        rightFront.setPower(power);
-        leftBack.setPower(power);
-        rightBack.setPower(-power);
+        Orientation angles;
+        double error;
+        double k = 3/360.0;
+
+        while (opModeIsActive()) {
+            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            //finds the angle given by the imu [-180, 180]
+            double angle = angles.firstAngle;
+            error = 0 - angle;
+            telemetry.addData("firstAngle",angles.firstAngle+" degrees");
+            telemetry.addData("secondAngle",angles.secondAngle+" degrees");
+            telemetry.addData("thirdAngle",angles.thirdAngle+" degrees");
+            telemetry.update();
+            leftFront.setPower(-(power + (error * k)));
+            rightFront.setPower((power + (error * k)));
+            leftBack.setPower((power - (error * k)));
+            rightBack.setPower(-(power - (error * k)));
+        }
     }
 
     public void strafeRight(double power) {
-        leftFront.setPower(power);
-        rightFront.setPower(-power);
-        leftBack.setPower(-power);
-        rightBack.setPower(power);
+        Orientation angles;
+        double error;
+        double k = 3/360.0;
+
+        while (opModeIsActive()) {
+            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            //finds the angle given by the imu [-180, 180]
+            double angle = angles.firstAngle;
+            error = 0 - angle;
+            leftFront.setPower((power - (error * k)));
+            rightFront.setPower(-(power - (error * k)));
+            leftBack.setPower(-(power + (error * k)));
+            rightBack.setPower((power + (error * k)));
+        }
     }
 
     public void stopMotors() {
