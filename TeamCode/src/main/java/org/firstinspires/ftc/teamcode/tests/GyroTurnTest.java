@@ -22,7 +22,7 @@ public class GyroTurnTest extends G9F9AutonomousHardwareMap {
             //telemetry.update();
             //gyroTurn(0.5,190);
             //strafeLeft(0.5);
-            goForward(0.5);
+            goBackward(0.5);
         }
         if (state == 2){
 /*
