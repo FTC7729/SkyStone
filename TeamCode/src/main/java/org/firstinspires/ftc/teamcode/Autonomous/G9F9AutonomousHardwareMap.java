@@ -137,10 +137,23 @@ public abstract class G9F9AutonomousHardwareMap extends LinearOpMode {
     }
 
     public void goForward(double power) {
-        leftFront.setPower(power);
-        rightFront.setPower(power);
-        leftBack.setPower(power);
-        rightBack.setPower(power);
+        Orientation angles;
+        double startAngle = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+        double error;
+        double k = 3/360.0;
+
+        while (opModeIsActive()) {
+            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            //finds the angle given by the imu [-180, 180]
+            double angle = angles.firstAngle;
+            error = startAngle - angle;
+            telemetry.addData("firstAngle",angles.firstAngle+" degrees");
+            telemetry.update();
+            leftFront.setPower((power - (error * k)));
+            rightFront.setPower((power + (error * k)));
+            leftBack.setPower((power - (error * k)));
+            rightBack.setPower((power + (error * k)));
+        }
     }
 
     public void goBackward(double power){
