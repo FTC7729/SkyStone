@@ -136,7 +136,7 @@ public abstract class G9F9AutonomousHardwareMap extends LinearOpMode {
         }
     }
 
-    public void goForward(double power) {
+    public void goForward(double power, double inches) {
         Orientation angles;
         double startAngle = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
         double error;
@@ -153,11 +153,12 @@ public abstract class G9F9AutonomousHardwareMap extends LinearOpMode {
             rightFront.setPower((power + (error * k)));
             leftBack.setPower((power - (error * k)));
             rightBack.setPower((power + (error * k)));
+
         }
     }
 
-    public void goBackward(double power){
-        goForward(-power);
+    public void goBackward(double power, double inches){
+        goForward(-power, inches);
     }
 
     public void turnLeft(double power) {
@@ -177,12 +178,14 @@ public abstract class G9F9AutonomousHardwareMap extends LinearOpMode {
         Orientation angles;
         double error;
         double k = 3/360.0;
+        double startAngle = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+
 
         while (opModeIsActive()) {
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             //finds the angle given by the imu [-180, 180]
             double angle = angles.firstAngle;
-            error = 0 - angle;
+            error = startAngle - angle;
             telemetry.addData("firstAngle",angles.firstAngle+" degrees");
             telemetry.addData("secondAngle",angles.secondAngle+" degrees");
             telemetry.addData("thirdAngle",angles.thirdAngle+" degrees");
@@ -198,12 +201,12 @@ public abstract class G9F9AutonomousHardwareMap extends LinearOpMode {
         Orientation angles;
         double error;
         double k = 3/360.0;
-
+        double startAngle = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
         while (opModeIsActive()) {
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             //finds the angle given by the imu [-180, 180]
             double angle = angles.firstAngle;
-            error = 0 - angle;
+            error = startAngle - angle;
             leftFront.setPower((power - (error * k)));
             rightFront.setPower(-(power - (error * k)));
             leftBack.setPower(-(power + (error * k)));
