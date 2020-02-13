@@ -26,16 +26,16 @@ public abstract class G9F9AutonomousHardwareMap extends LinearOpMode {
     static final double CLAW_CLOSED_ON_SKYSTONE = 1130;
     static final double LIFT_UP_SKYSTONE = 1000;
     static final double LIFT_BOTTOM_MIN = 0;
-    static final double LIFT_TOP_MAX =  6618;
+    static final double LIFT_TOP_MAX = 6618;
 
     private ElapsedTime runtime = new ElapsedTime();
-    static final double     COUNTS_PER_MOTOR_REV_NEVEREST40    = 1120 ;    // eg: NEVEREST 40 Motor Encoder https://www.servocity.com/neverest-40-gearmotor
-    static final double     COUNTS_PER_MOTOR_REV_NEVEREST20    = 560 ;
-    static final double     ROTATIONS_PER_MINUTE    = 160 ;
-    static final double     DRIVE_GEAR_REDUCTION    = 1 ;     // This is < 1.0 if geared UP
+    static final double COUNTS_PER_MOTOR_REV_NEVEREST40 = 1120;    // eg: NEVEREST 40 Motor Encoder https://www.servocity.com/neverest-40-gearmotor
+    static final double COUNTS_PER_MOTOR_REV_NEVEREST20 = 560;
+    static final double ROTATIONS_PER_MINUTE = 160;
+    static final double DRIVE_GEAR_REDUCTION = 1;     // This is < 1.0 if geared UP
     //MUST BE REMEASURED BEFORE USE. DELETE TELEMETRY AND STUFF ONCE FIXED
-    static final double     WHEEL_DIAMETER_INCHES   = 4 ;     // For figuring circumference
-    static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV_NEVEREST20
+    static final double WHEEL_DIAMETER_INCHES = 4;     // For figuring circumference
+    static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV_NEVEREST20
             * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * Math.PI);
 
@@ -43,14 +43,14 @@ public abstract class G9F9AutonomousHardwareMap extends LinearOpMode {
     static final double THRESHOLD = 1;
     BNO055IMU imu;
 
-    public void init(HardwareMap hardwareMap){
+    public void init(HardwareMap hardwareMap) {
         //get wheels
-        leftFront  = hardwareMap.dcMotor.get("leftFront");
+        leftFront = hardwareMap.dcMotor.get("leftFront");
         rightFront = hardwareMap.dcMotor.get("rightFront");
         leftBack = hardwareMap.dcMotor.get("leftRear");
-        rightBack  = hardwareMap.dcMotor.get("rightRear");
+        rightBack = hardwareMap.dcMotor.get("rightRear");
         liftMotor = hardwareMap.dcMotor.get("liftMotor");
-        clawMotor  = hardwareMap.dcMotor.get("clawMotor");
+        clawMotor = hardwareMap.dcMotor.get("clawMotor");
 
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         leftBack.setDirection(DcMotor.Direction.FORWARD);
@@ -69,42 +69,49 @@ public abstract class G9F9AutonomousHardwareMap extends LinearOpMode {
         leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         clawMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        clawMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         //setup IMU
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
 
-        parameters.mode           = BNO055IMU.SensorMode.IMU;
-        parameters.angleUnit      = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit      = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.mode = BNO055IMU.SensorMode.IMU;
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.loggingEnabled = false;
         //get and initialize IMU
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
         imu.initialize(parameters);
     }
-    public void gyroTurn (double power, double target)
-    {
+
+    public void gyroTurn(double power, double target) {
         Orientation angles;
         double error;
-        double k = 55/3600.0;
-        double kInt = 3/3600.0;
+        double k = 55 / 3600.0;
+        double kInt = 3 / 3600.0;
         double eInt = 0;
         double startTime = System.currentTimeMillis();
         double prevTime = System.currentTimeMillis();
-        while(opModeIsActive()) {
+        while (opModeIsActive()) {
             double currentTime = System.currentTimeMillis();
-            double loopTime = (currentTime - prevTime)/1000.0; // In seconds
+            double loopTime = (currentTime - prevTime) / 1000.0; // In seconds
             prevTime = currentTime;
             double timeElapsed = currentTime - startTime;
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             error = target - angles.firstAngle;
             eInt += loopTime * error;
-            telemetry.addData("Heading",angles.firstAngle+" degrees");
-            telemetry.addData("Loop time: ",loopTime+" ms");
+            telemetry.addData("Heading", angles.firstAngle + " degrees");
+            telemetry.addData("Loop time: ", loopTime + " ms");
             telemetry.update();
-            if (error == 0 || timeElapsed/1000 >= 5){
+            if (error == 0 || timeElapsed / 1000 >= 5) {
                 stopMotors();
                 break;
             }
@@ -120,7 +127,7 @@ public abstract class G9F9AutonomousHardwareMap extends LinearOpMode {
         rightBack.setPower(power);
     }
 
-    public void goBackward(double power){
+    public void goBackward(double power) {
         goForward(-power);
     }
 
@@ -130,6 +137,7 @@ public abstract class G9F9AutonomousHardwareMap extends LinearOpMode {
         leftBack.setPower(-power);
         rightBack.setPower(power);
     }
+
     public void turnRight(double power) {
         leftFront.setPower(power);
         rightFront.setPower(-power);
@@ -158,14 +166,12 @@ public abstract class G9F9AutonomousHardwareMap extends LinearOpMode {
         rightBack.setPower(0);
     }
 
-    public void strafeRightEncoder(double power, double distance, double timeout)
-    {
-        encoderDrive(power,distance,-distance,-distance,distance,timeout);
+    public void strafeRightEncoder(double power, double distance, double timeout) {
+        encoderDrive(power, distance, -distance, -distance, distance, timeout);
     }
 
-    public void strafeLeftEncoder(double power, double distance, double timeout)
-    {
-        encoderDrive(power,-distance, distance, distance, -distance, timeout);
+    public void strafeLeftEncoder(double power, double distance, double timeout) {
+        encoderDrive(power, -distance, distance, distance, -distance, timeout);
     }
 
     public void encoderDrive(double speed, double leftInches, double rightInches, double leftBackInches, double rightBackInches, double timeoutS) {
@@ -183,10 +189,10 @@ public abstract class G9F9AutonomousHardwareMap extends LinearOpMode {
         int newRightBackTarget;
 
         if (opModeIsActive()) {
-            newLeftTarget = leftFront.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-            newRightTarget = rightFront.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
-            newLeftBackTarget = leftBack.getCurrentPosition() + (int)(leftBackInches * COUNTS_PER_INCH);
-            newRightBackTarget = rightBack.getCurrentPosition() + (int)(rightBackInches * COUNTS_PER_INCH);
+            newLeftTarget = leftFront.getCurrentPosition() + (int) (leftInches * COUNTS_PER_INCH);
+            newRightTarget = rightFront.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
+            newLeftBackTarget = leftBack.getCurrentPosition() + (int) (leftBackInches * COUNTS_PER_INCH);
+            newRightBackTarget = rightBack.getCurrentPosition() + (int) (rightBackInches * COUNTS_PER_INCH);
             leftFront.setTargetPosition(newLeftTarget);
             rightFront.setTargetPosition(newRightTarget);
             leftBack.setTargetPosition(newLeftBackTarget);
@@ -210,8 +216,8 @@ public abstract class G9F9AutonomousHardwareMap extends LinearOpMode {
                     (leftFront.isBusy() && rightFront.isBusy() && leftBack.isBusy() && rightBack.isBusy())) {
 
                 // Display it for the driver.
-                telemetry.addData("Path1",  "Going to %7d :%7d", newLeftTarget,  newRightTarget);
-                telemetry.addData("Path2",  "Currently at %7d :%7d",
+                telemetry.addData("Path1", "Going to %7d :%7d", newLeftTarget, newRightTarget);
+                telemetry.addData("Path2", "Currently at %7d :%7d",
                         leftFront.getCurrentPosition(),
                         rightFront.getCurrentPosition(),
                         leftBack.getCurrentPosition(),
@@ -236,4 +242,15 @@ public abstract class G9F9AutonomousHardwareMap extends LinearOpMode {
 
     }
 
+    public void setClawPosition(int pos, double speed) {
+        clawMotor.setTargetPosition(pos);
+        clawMotor.setPower(speed);
+        while ((clawMotor.getCurrentPosition() > clawMotor.getTargetPosition() + 1 || clawMotor.getCurrentPosition() < clawMotor.getTargetPosition() - 1) && opModeIsActive()) {
+            telemetry.addData("Encoder Position", clawMotor.getCurrentPosition());
+            telemetry.update();
+            idle();
+        }
+
+
+    }
 }
