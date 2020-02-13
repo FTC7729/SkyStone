@@ -21,6 +21,12 @@ public abstract class G9F9AutonomousHardwareMap extends LinearOpMode {
     public DcMotor liftMotor;
     public DcMotor clawMotor;
 
+    static final double CLAW_MIN_CLOSED = 0;
+    static final double CLAW_MAX_OPEN = 5000;
+    static final double CLAW_CLOSED_ON_SKYSTONE = 1130;
+    static final double LIFT_UP_SKYSTONE = 1000;
+    static final double LIFT_BOTTOM_MIN = 0;
+    static final double LIFT_TOP_MAX =  6618;
 
     private ElapsedTime runtime = new ElapsedTime();
     static final double     COUNTS_PER_MOTOR_REV_NEVEREST40    = 1120 ;    // eg: NEVEREST 40 Motor Encoder https://www.servocity.com/neverest-40-gearmotor
