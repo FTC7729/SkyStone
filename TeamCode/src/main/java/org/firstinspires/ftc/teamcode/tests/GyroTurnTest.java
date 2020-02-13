@@ -22,7 +22,7 @@ public class GyroTurnTest extends BoxHAutonomousHardwareMap {
             //telemetry.update();
             //gyroTurn(0.5,190);
             //strafeLeft(0.5);
-            goForward(0.5, 60);
+            strafeRight(.5, 60);
         }
         if (state == 2){
 /*
