@@ -2,12 +2,13 @@ package org.firstinspires.ftc.teamcode.tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.Autonomous.BoxHAutonomousHardwareMap;
 import org.firstinspires.ftc.teamcode.Autonomous.G9F9AutonomousHardwareMap;
 
 @Autonomous
-public class GyroTurnTest extends BoxHAutonomousHardwareMap {
+public class GyroTurnTest extends G9F9AutonomousHardwareMap {
     public void runOpMode(){
         int state = 0;
         if (state == 0){
@@ -22,7 +23,7 @@ public class GyroTurnTest extends BoxHAutonomousHardwareMap {
             //telemetry.update();
             //gyroTurn(0.5,190);
             //strafeLeft(0.5);
-            strafeRight(.5, 60);
+            strafeLeft(.5, 60);
         }
         if (state == 2){
 /*

@@ -67,7 +67,8 @@ public abstract class G9F9AutonomousHardwareMap extends LinearOpMode {
         liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         clawMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        liftMotor.setTargetPosition(0);
+        liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -136,29 +137,41 @@ public abstract class G9F9AutonomousHardwareMap extends LinearOpMode {
         }
     }
 
-    public void goForward(double power, double inches) {
+    public void goForward(double power, int distance) {
         Orientation angles;
         double startAngle = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
         double error;
         double k = 3/360.0;
+        int leftFrontTarget = leftFront.getCurrentPosition() + (int)(distance * COUNTS_PER_INCH);
+        int rightFrontTarget = rightFront.getCurrentPosition() + (int)(distance * COUNTS_PER_INCH);
+        int leftBackTarget = leftBack.getCurrentPosition() + (int)(distance * COUNTS_PER_INCH);
+        int rightBackTarget = rightBack.getCurrentPosition() + (int)(distance * COUNTS_PER_INCH);
 
-        while (opModeIsActive()) {
+        while (opModeIsActive() &&
+                (power > 0 && leftFront.getCurrentPosition() < leftFrontTarget && rightFront.getCurrentPosition() < rightFrontTarget && leftBack.getCurrentPosition() < leftBackTarget && rightBack.getCurrentPosition() < rightBackTarget) ||
+                (power < 0 && leftFront.getCurrentPosition() > leftFrontTarget && rightFront.getCurrentPosition() > rightFrontTarget && leftBack.getCurrentPosition() > leftBackTarget && rightBack.getCurrentPosition() > rightBackTarget)
+        ) {
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             //finds the angle given by the imu [-180, 180]
             double angle = angles.firstAngle;
             error = startAngle - angle;
             telemetry.addData("firstAngle",angles.firstAngle+" degrees");
+            telemetry.addData("leftFront ",leftFront.getCurrentPosition());
+            telemetry.addData("rightFront ",rightFront.getCurrentPosition());
+            telemetry.addData("leftBack ",leftBack.getCurrentPosition());
+            telemetry.addData("rightBack ",rightBack.getCurrentPosition());
+
             telemetry.update();
             leftFront.setPower((power - (error * k)));
             rightFront.setPower((power + (error * k)));
             leftBack.setPower((power - (error * k)));
             rightBack.setPower((power + (error * k)));
-
         }
+
     }
 
-    public void goBackward(double power, double inches){
-        goForward(-power, inches);
+    public void goBackward(double power, int distance){
+        goForward(-power, -distance);
     }
 
     public void turnLeft(double power) {
@@ -174,35 +187,55 @@ public abstract class G9F9AutonomousHardwareMap extends LinearOpMode {
         rightBack.setPower(-power);
     }
 
-    public void strafeLeft(double power) {
+    public void strafeLeft(double power, int distance) {
         Orientation angles;
         double error;
         double k = 3/360.0;
         double startAngle = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+        int leftFrontTarget = leftFront.getCurrentPosition() - (int)(distance * COUNTS_PER_INCH);
+        int rightFrontTarget = rightFront.getCurrentPosition() + (int)(distance * COUNTS_PER_INCH);
+        int leftBackTarget = leftBack.getCurrentPosition() + (int)(distance * COUNTS_PER_INCH);
+        int rightBackTarget = rightBack.getCurrentPosition() - (int)(distance * COUNTS_PER_INCH);
+        leftFront.setTargetPosition(leftFrontTarget);
+        rightFront.setTargetPosition(rightFrontTarget);
+        leftBack.setTargetPosition(leftBackTarget);
+        rightBack.setTargetPosition(rightBackTarget);
 
-
-        while (opModeIsActive()) {
+        while (opModeIsActive()
+                &&(leftFront.getCurrentPosition() > leftFrontTarget && rightFront.getCurrentPosition() < rightFrontTarget && leftBack.getCurrentPosition() < leftBackTarget && rightBack.getCurrentPosition() > rightBackTarget)) {
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             //finds the angle given by the imu [-180, 180]
             double angle = angles.firstAngle;
             error = startAngle - angle;
-            telemetry.addData("firstAngle",angles.firstAngle+" degrees");
-            telemetry.addData("secondAngle",angles.secondAngle+" degrees");
-            telemetry.addData("thirdAngle",angles.thirdAngle+" degrees");
-            telemetry.update();
             leftFront.setPower(-(power + (error * k)));
             rightFront.setPower((power + (error * k)));
             leftBack.setPower((power - (error * k)));
             rightBack.setPower(-(power - (error * k)));
+            telemetry.addData("error: ",error);
+            telemetry.addData("leftfront dest: ", leftFrontTarget);
+            telemetry.addData("leftFront pos: ",leftFront.getCurrentPosition());
+
+
+            telemetry.update();
         }
     }
 
-    public void strafeRight(double power) {
+    public void strafeRight(double power, int distance) {
         Orientation angles;
         double error;
         double k = 3/360.0;
         double startAngle = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
-        while (opModeIsActive()) {
+        int leftFrontTarget = leftFront.getCurrentPosition() + (int)(distance * COUNTS_PER_INCH);
+        int rightFrontTarget = rightFront.getCurrentPosition() - (int)(distance * COUNTS_PER_INCH);
+        int leftBackTarget = leftBack.getCurrentPosition() - (int)(distance * COUNTS_PER_INCH);
+        int rightBackTarget = rightBack.getCurrentPosition() + (int)(distance * COUNTS_PER_INCH);
+        leftFront.setTargetPosition(leftFrontTarget);
+        rightFront.setTargetPosition(rightFrontTarget);
+        leftBack.setTargetPosition(leftBackTarget);
+        rightBack.setTargetPosition(rightBackTarget);
+
+        while (opModeIsActive()
+                &&(leftFront.getCurrentPosition() < leftFrontTarget && rightFront.getCurrentPosition() > rightFrontTarget && leftBack.getCurrentPosition() > leftBackTarget && rightBack.getCurrentPosition() < rightBackTarget)) {
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             //finds the angle given by the imu [-180, 180]
             double angle = angles.firstAngle;
@@ -211,6 +244,12 @@ public abstract class G9F9AutonomousHardwareMap extends LinearOpMode {
             rightFront.setPower(-(power - (error * k)));
             leftBack.setPower(-(power + (error * k)));
             rightBack.setPower((power + (error * k)));
+            telemetry.addData("error: ",error);
+            telemetry.addData("leftfront dest: ", leftFrontTarget);
+            telemetry.addData("leftFront pos: ",leftFront.getCurrentPosition());
+
+
+            telemetry.update();
         }
     }
 
