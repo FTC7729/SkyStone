@@ -18,22 +18,32 @@ public class G9F9AutonomousRedLoadZoneTest extends G9F9AutonomousHardwareMap{
             telemetry.addData("State","1");
             telemetry.update();
             setClawPosition(CLAW_MAX_OPEN,.5);
-            state = 2;
+            sleep(5000);
+            //stopMotors();
+            telemetry.addData("Finished state",1);
+            telemetry.update();
+            //state = 2;
+            sleep(1000); //to give the motor a break...
         }
+
+        /*
         if (state == 2) { //claw pos to skystone
             telemetry.addData("State","2");
             telemetry.update();
             //strafe right 30 inches
-            setClawPosition(CLAW_CLOSED_ON_SKYSTONE, .3);
+            setClawPosition(CLAW_CLOSED_ON_SKYSTONE, .5);
             state = 3;
         }
         if (state == 3) { // lift up one inch
             telemetry.addData("State","3");
             telemetry.update();
-            setLiftPosition(LIFT_UP_SKYSTONE,.3);
-            //stopMotors();
+
+            setLiftPosition(LIFT_UP_SKYSTONE,.5);
+            stopMotors();
             //stop!
         }
+    */
+
     }
 
 }
