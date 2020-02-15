@@ -75,8 +75,8 @@ public abstract class G9F9AutonomousHardwareMap extends LinearOpMode {
 
         liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         clawMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        clawMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //clawMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //setup IMU
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -242,14 +242,16 @@ public abstract class G9F9AutonomousHardwareMap extends LinearOpMode {
     }
 
     public void setClawPosition(int pos, double speed) {
+
+
         clawMotor.setTargetPosition(pos);
         clawMotor.setPower(speed);
         while ((clawMotor.getCurrentPosition() > clawMotor.getTargetPosition() + 1 || clawMotor.getCurrentPosition() < clawMotor.getTargetPosition() - 1) && opModeIsActive()) {
             telemetry.addData("Encoder Position", clawMotor.getCurrentPosition());
             telemetry.update();
-            clawMotor.setPower(0);
             idle();
         }
+        clawMotor.setPower(0);
 
 
     }
@@ -259,10 +261,10 @@ public abstract class G9F9AutonomousHardwareMap extends LinearOpMode {
         while ((liftMotor.getCurrentPosition() > liftMotor.getTargetPosition() + 1 || liftMotor.getCurrentPosition() < liftMotor.getTargetPosition() - 1) && opModeIsActive()) {
             telemetry.addData("Encoder Position", liftMotor.getCurrentPosition());
             telemetry.update();
-            liftMotor.setPower(0);
+
             idle();
         }
-
+        liftMotor.setPower(0);
 
     }
 }

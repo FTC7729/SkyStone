@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-@Autonomous(name = "RedLoadZoneTest", group = "tests")
+@Autonomous(name = "RedLoadZoneTest", group = "A")
 public class G9F9AutonomousRedLoadZoneTest extends G9F9AutonomousHardwareMap{
     public void runOpMode(){
         int state = 0;
@@ -17,8 +17,8 @@ public class G9F9AutonomousRedLoadZoneTest extends G9F9AutonomousHardwareMap{
             //move forward 72in - 3 squares
             telemetry.addData("State","1");
             telemetry.update();
-            setClawPosition(CLAW_MAX_OPEN,.5);
-            sleep(5000);
+            setClawPosition(CLAW_MAX_OPEN,0.5);
+            //sleep(5000);
             //stopMotors();
             telemetry.addData("Finished state",1);
             telemetry.update();
