@@ -29,7 +29,7 @@ public abstract class G9F9AutonomousHardwareMap extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
     static final double     COUNTS_PER_MOTOR_REV_NEVEREST40    = 1120 ;    // eg: NEVEREST 40 Motor Encoder https://www.servocity.com/neverest-40-gearmotor
-    static final double     COUNTS_PER_MOTOR_REV_NEVEREST20    = 560 ;
+    static final double     COUNTS_PER_MOTOR_REV_NEVEREST20    = 540 ;
     static final double     ROTATIONS_PER_MINUTE    = 160 ;
     static final double     DRIVE_GEAR_REDUCTION    = 1 ;     // This is < 1.0 if geared UP
     //MUST BE REMEASURED BEFORE USE. DELETE TELEMETRY AND STUFF ONCE FIXED
@@ -66,7 +66,8 @@ public abstract class G9F9AutonomousHardwareMap extends LinearOpMode {
         clawMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        clawMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        clawMotor.setTargetPosition(0);
+        clawMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         liftMotor.setTargetPosition(0);
         liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -76,6 +77,12 @@ public abstract class G9F9AutonomousHardwareMap extends LinearOpMode {
 
         clawMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
         //setup IMU
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -167,6 +174,7 @@ public abstract class G9F9AutonomousHardwareMap extends LinearOpMode {
             leftBack.setPower((power - (error * k)));
             rightBack.setPower((power + (error * k)));
         }
+        stopMotors();
 
     }
 
@@ -218,6 +226,7 @@ public abstract class G9F9AutonomousHardwareMap extends LinearOpMode {
 
             telemetry.update();
         }
+        stopMotors();
     }
 
     public void strafeRight(double power, int distance) {
@@ -251,6 +260,7 @@ public abstract class G9F9AutonomousHardwareMap extends LinearOpMode {
 
             telemetry.update();
         }
+        stopMotors();
     }
 
     public void stopMotors() {
@@ -336,6 +346,27 @@ public abstract class G9F9AutonomousHardwareMap extends LinearOpMode {
         }
 
 
+    }
+    public void setClawPosition(int pos, double speed) {
+        clawMotor.setTargetPosition(pos);
+        clawMotor.setPower(speed);
+        while ((clawMotor.getCurrentPosition() > clawMotor.getTargetPosition() + 10 || clawMotor.getCurrentPosition() < clawMotor.getTargetPosition() - 10) && opModeIsActive()) {
+            telemetry.addData("Encoder Position", clawMotor.getCurrentPosition());
+            telemetry.update();
+            idle();
+        }
+        clawMotor.setPower(0);
+
+    }
+    public void setLiftPosition(int pos, double speed) {
+        liftMotor.setTargetPosition(pos);
+        liftMotor.setPower(speed);
+        while ((liftMotor.getCurrentPosition() > liftMotor.getTargetPosition() + 10 || liftMotor.getCurrentPosition() < liftMotor.getTargetPosition() - 10) && opModeIsActive()) {
+            telemetry.addData("Encoder Position", liftMotor.getCurrentPosition());
+            telemetry.update();
+            //idle();
+        }
+        liftMotor.setPower(0);
     }
 
 }
