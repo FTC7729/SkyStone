@@ -98,6 +98,13 @@ public class G9BlueBuildZone extends G9F9AutonomousHardwareMap {
             telemetry.addData("State: ", state);
             telemetry.update();
             goBackward(0.5, 32);
+            state = 14;
+        }
+        if (state == 14){
+            telemetry.addData("State: ", state);
+            telemetry.update();
+            setLiftPosition(0, 0.5);
+            setClawPosition(0, 0.5);
         }
 
 
