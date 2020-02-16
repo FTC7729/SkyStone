@@ -18,7 +18,7 @@ public class G9BlueBuildZone extends G9F9AutonomousHardwareMap {
         if (state == 1){
             telemetry.addData("State: ", state);
             telemetry.update();
-            setLiftPosition(1000, 0.5);
+            setLiftPosition(2000, 0.5);
             //this claw position maximizes our odds of not hitting the claw against one of the nubs
             setClawPosition(780, 0.5);
             state = 2;
@@ -33,7 +33,7 @@ public class G9BlueBuildZone extends G9F9AutonomousHardwareMap {
         if (state == 3){
             telemetry.addData("State: ", state);
             telemetry.update();
-            strafeLeft(0.4, 12);
+            strafeLeft(0.4, 14);
             state = 4;
         }
         sleep(500);
@@ -46,7 +46,7 @@ public class G9BlueBuildZone extends G9F9AutonomousHardwareMap {
         if (state == 5){
             telemetry.addData("State: ", state);
             telemetry.update();
-            goForward(0.4, 24);
+            goForward(0.4, 26);
             gyroTurn(0.5, 0);
             state = 6;
         }
@@ -60,7 +60,46 @@ public class G9BlueBuildZone extends G9F9AutonomousHardwareMap {
         if (state == 7){
             telemetry.addData("State: ", state);
             telemetry.update();
-            gyroTurn(0.5, 90);
+            strafeRight(0.5,16);
+            state = 8;
         }
+        if (state == 8){
+            telemetry.addData("State: ", state);
+            telemetry.update();
+            gyroTurn(0.5, 100);
+            gyroTurn(0.5, 90);
+            state = 9;
+        }
+        if (state == 9){
+            telemetry.addData("State: ", state);
+            telemetry.update();
+            strafeLeft(0.5,36);
+            state = 10;
+        }
+        if (state == 10){
+            telemetry.addData("State: ", state);
+            telemetry.update();
+            gyroTurn(0.5, 90);
+            state = 11;
+        }
+        if(state == 11){
+            telemetry.addData("State: ", state);
+            telemetry.update();
+            goForward(0.5, 6);
+            state = 12;
+        }
+        if (state == 12){
+            telemetry.addData("State: ", state);
+            telemetry.update();
+            setLiftPosition(2000, 0.5);
+            state = 13;
+        }
+        if (state == 13){
+            telemetry.addData("State: ", state);
+            telemetry.update();
+            goBackward(0.5, 32);
+        }
+
+
     }
 }

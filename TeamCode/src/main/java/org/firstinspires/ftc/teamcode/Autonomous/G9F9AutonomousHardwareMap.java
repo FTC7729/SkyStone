@@ -142,6 +142,7 @@ public abstract class G9F9AutonomousHardwareMap extends LinearOpMode {
             turnLeft(k * error + kInt * eInt);
             idle();
         }
+        stopMotors();
     }
 
     public void goForward(double power, int distance) {

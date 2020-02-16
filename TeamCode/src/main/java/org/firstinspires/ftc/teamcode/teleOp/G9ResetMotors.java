@@ -19,10 +19,10 @@ public class G9ResetMotors extends G9F9TeleOpHandler {
         bPress = gamepad.b;
 
         if (dpadUp){
-            liftMotor.setPower(0.4);
+            liftMotor.setPower(0.2);
             //down
         }else if (dpadDown){
-            liftMotor.setPower(-0.4);
+            liftMotor.setPower(-0.2);
             //up
 
         }else{
@@ -31,10 +31,10 @@ public class G9ResetMotors extends G9F9TeleOpHandler {
 
 
         if (aPress){
-            clawMotor.setPower(0.9);
+            clawMotor.setPower(0.2);
             //opens(?) claw
         }else if (bPress){
-            clawMotor.setPower(-0.9);
+            clawMotor.setPower(-0.2);
             //closes(?) claw
         }else {
             clawMotor.setPower(0);
