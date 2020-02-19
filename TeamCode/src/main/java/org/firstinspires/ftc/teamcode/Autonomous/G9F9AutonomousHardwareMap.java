@@ -123,7 +123,7 @@ public abstract class G9F9AutonomousHardwareMap extends LinearOpMode {
 
         imu.initialize(parameters);
     }
-    public void initvuforia(HardwareMap hardwareMap){
+    public void initvuforia(){
         final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
          final boolean PHONE_IS_PORTRAIT = false  ;
         //experimental thing here, may frick stuff up

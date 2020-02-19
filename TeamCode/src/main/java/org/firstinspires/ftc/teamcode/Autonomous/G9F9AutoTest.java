@@ -9,8 +9,8 @@ public class G9F9AutoTest extends G9F9AutonomousHardwareMap{
         if (state == 0){
             //init robot
             init(hardwareMap);
-            init(initvuforia);
             waitForStart();
+            initvuforia();
             state = 1;
         }
 
