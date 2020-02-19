@@ -1,9 +1,7 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-
-import org.firstinspires.ftc.teamcode.Autonomous.BoxHAutonomousHardwareMap;
-@Autonomous
+@Autonomous(name = "Red: Load Zone Park Only", group = "Park")
 public class BoxHRedLoadZone extends BoxHAutonomousHardwareMap {
     public void runOpMode(){
         int state = 0;
