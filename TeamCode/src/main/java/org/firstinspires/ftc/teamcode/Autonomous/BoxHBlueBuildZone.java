@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 @Autonomous(name = "Blue: Build Zone Park Only", group = "Park")
-public class BoxHBlueBuildZone extends BoxHAutonomousHardwareMap {
+public class BoxHBlueBuildZone extends G9F9AutonomousHardwareMap {
     public void runOpMode(){
         int state = 0;
         if (state == 0){
@@ -16,7 +16,7 @@ public class BoxHBlueBuildZone extends BoxHAutonomousHardwareMap {
             //move foreword 1 inch
             telemetry.addData("State","1");
             telemetry.update();
-            encoderDrive(.5 , 1,1,1,1,5);
+            goForward(.5,1);
             state = 2;
         }
 
@@ -24,7 +24,7 @@ public class BoxHBlueBuildZone extends BoxHAutonomousHardwareMap {
             telemetry.addData("State","2");
             telemetry.update();
             //strafe right 30 inches
-            strafeRightEncoder(.5,30,20);
+            strafeRight(.5,30);
             state = 3;
         }
 
