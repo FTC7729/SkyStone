@@ -39,7 +39,7 @@ public class G9F9RedLoadAutoTestStoneMovedFoundationPark extends G9F9AutonomousH
         if (state == 4){ //lifts stone so it doesn't drag and maybe release onto build platform if we have time to test
             telemetry.addData("State","4");
             telemetry.update();
-            setLiftPosition(LIFT_UP_SKYSTONE_FOUNDATION,.4);
+            setLiftPosition(LIFT_UP_SKYSTONE_FOUNDATION,.7);
             state = 5;
         }
         if (state == 5){ //move backwards to strafe right under alliance bridge with stone
@@ -63,33 +63,34 @@ public class G9F9RedLoadAutoTestStoneMovedFoundationPark extends G9F9AutonomousH
         if (state == 8){ //open claw to release stone onto foundation
             telemetry.addData("State","8");
             telemetry.update();
-            setClawPosition(CLAW_MAX_OPEN,1);
+            setClawPosition(CLAW_STONE_OPEN,1); //change the variable for open on  platform if time for other opmodes
             state = 9;
         }
         if (state == 9){ //move out of foundation area, backwards,to park under bridge
             telemetry.addData("State","9");
             telemetry.update();
-            goBackward(.5,54);
+            goBackward(.5,40);
             state = 10;
         }
-        if (state == 10){ //reorient robot forward
+        /*if (state == 10){ //reorient robot forward
             telemetry.addData("State","10");
             telemetry.update();
             gyroTurn(.5,90);
             state = 11;
-        }
-        if (state == 11){ //to reset the claw encoder values when CompDrive starts
+        }*/
+        if (state == 10){ //to reset the claw encoder values when CompDrive starts
             telemetry.addData("State","11");
             telemetry.update();
-            setLiftPosition(LIFT_BOTTOM_MIN,.4);
-            state = 12;
-        }
-        if (state == 12){ //to reset the claw encoder values when CompDrive starts
-            telemetry.addData("State","12");
-            telemetry.update();
             setClawPosition(CLAW_MIN_CLOSED,1);
+            state = 11;
+        }
+        if (state == 11){ //to reset the claw encoder values when CompDrive starts
+            telemetry.addData("State","10");
+            telemetry.update();
+            setLiftPosition(LIFT_BOTTOM_MIN,.7);
             stopMotors();
         }
+
     }
 
 

@@ -45,7 +45,7 @@ public class G9F9BlueLoadAutoTestStoneFoundationPark extends G9F9AutonomousHardw
         if (state == 5){ //move backwards to strafe right under alliance bridge with stone
             telemetry.addData("State","5");
             telemetry.update();
-            goBackward(.5,20);
+            goBackward(.5,10);
             state = 6;
         }
         if (state == 6){ //move left across bridge to foundation
@@ -63,7 +63,7 @@ public class G9F9BlueLoadAutoTestStoneFoundationPark extends G9F9AutonomousHardw
         if (state == 8){ //open claw to release stone onto foundation
             telemetry.addData("State","8");
             telemetry.update();
-            setClawPosition(CLAW_MAX_OPEN,1);
+            setClawPosition(CLAW_STONE_OPEN,1);
             state = 9;
         }
         if (state == 9){ //move out of foundation area to park under bridge
