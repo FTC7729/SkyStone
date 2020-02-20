@@ -52,6 +52,7 @@ public abstract class G9F9AutonomousHardwareMap extends LinearOpMode {
     static final int CLAW_MAX_OPEN = 5000;
     static final int CLAW_CLOSED_ON_SKYSTONE = 1350;
     static final int LIFT_UP_SKYSTONE = 1000;
+    static final int LIFT_UP_SKYSTONE_FOUNDATION = 2000;
     static final int LIFT_BOTTOM_MIN = 0;
     static final int LIFT_TOP_MAX = 6618;
 

@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-@Autonomous(name = "Stone&Park", group = "Stone")
+@Autonomous(name = "BlueStone&Park", group = "Stone")
 public class G9F9BlueLoadAutoTest extends G9F9AutonomousHardwareMap{
     //autonomous for the BlueLoadZone
     public void runOpMode(){
