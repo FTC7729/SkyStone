@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-@Autonomous
+@Autonomous(name = "Stone&Park", group = "Stone")
 public class G9F9BlueLoadAutoTest extends G9F9AutonomousHardwareMap{
     //autonomous for the BlueLoadZone
     public void runOpMode(){
@@ -11,7 +11,7 @@ public class G9F9BlueLoadAutoTest extends G9F9AutonomousHardwareMap{
             //init robot
             init(hardwareMap);
             waitForStart();
-            initvuforia(); //this can take a few seconds to init so think about removing this to save time
+            //initvuforia(); //this can take a few seconds to init so think about removing this to save time
             state = 1;
         }
 
@@ -69,7 +69,7 @@ public class G9F9BlueLoadAutoTest extends G9F9AutonomousHardwareMap{
         if (state == 9){ //park underneath the bridge - 5 points
             telemetry.addData("State","9");
             telemetry.update();
-            goBackward(.5,15);
+            goBackward(.5,20);
             state = 10;
         }
         if (state == 10){ //done to reset the lift encoder values when teleop starts

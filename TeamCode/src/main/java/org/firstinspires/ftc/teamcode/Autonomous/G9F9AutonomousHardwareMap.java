@@ -67,7 +67,7 @@ public abstract class G9F9AutonomousHardwareMap extends LinearOpMode {
             (WHEEL_DIAMETER_INCHES * Math.PI);
 
     //Threshold for Gyro turning so that we will not continuously attempt to reach an exact value
-    static final double THRESHOLD = 1;
+    static final double THRESHOLD = 3;
     BNO055IMU imu;
 
     public void init(HardwareMap hardwareMap){
