@@ -24,7 +24,7 @@ public class BoxHBlueBuildZone extends G9F9AutonomousHardwareMap {
             telemetry.addData("State","2");
             telemetry.update();
             //strafe right 30 inches
-            strafeRight(.5,30);
+            strafeRight(.3,36);
             state = 3;
         }
 
