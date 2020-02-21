@@ -13,13 +13,13 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 public class G9F9CompDrive extends G9F9TeleOpHandler {
     //lift values are starting from the bottom
     //LIFT_MAX_POS should be positive
-    public final int LIFT_MAX_POS = 6750;
+    public final int LIFT_MAX_POS = 6618;
 
     public final int LIFT_MIN_POS = 0;
 
     public final int LIFT_ON_FOUNDATION = 770;
 
-    public final int CLAW_MAX_POS = -5000;
+    public final int CLAW_MAX_POS = 5000;
 
     public final int CLAW_MIN_POS = 0;
 
@@ -136,6 +136,11 @@ public class G9F9CompDrive extends G9F9TeleOpHandler {
         }
         else if (dpadDown) {
             liftMotor.setTargetPosition(LIFT_MIN_POS);
+            liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            liftMotor.setPower(1);
+        }
+        else if (xPress){
+            liftMotor.setTargetPosition(LIFT_ON_FOUNDATION);
             liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             liftMotor.setPower(1);
         }
