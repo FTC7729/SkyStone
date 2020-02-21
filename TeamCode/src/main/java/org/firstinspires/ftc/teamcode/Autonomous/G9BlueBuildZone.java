@@ -2,111 +2,73 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-@Autonomous
+@Autonomous(name = "G9F9BlueBuildMoveFoundation", group = "Foundation")
 public class G9BlueBuildZone extends G9F9AutonomousHardwareMap {
     public void runOpMode(){
         int state = 0;
         if (state == 0){
             //init robot
-            telemetry.addData("State: ", state);
+            telemetry.addData("State: ", "0");
             telemetry.update();
             init(hardwareMap);
             waitForStart();
-
             state = 1;
         }
-        if (state == 1){
-            telemetry.addData("State: ", state);
+        if (state == 1){ //strafe left to wall
+            telemetry.addData("State: ", "1");
+            telemetry.update();
+            strafeLeft(0.5, 14);
+            state = 2;
+        }
+        if (state == 2){
+            telemetry.addData("State: ", "2");
             telemetry.update();
             setLiftPosition(2000, 0.5);
             //this claw position maximizes our odds of not hitting the claw against one of the nubs
             setClawPosition(780, 0.5);
-            state = 2;
-        }
-        if (state == 2){
-            telemetry.addData("State: ", state);
-            telemetry.update();
-            goForward(0.4,6);
             state = 3;
         }
-        sleep(500);
-        if (state == 3){
-            telemetry.addData("State: ", state);
+        if (state == 3){ //move towards foundation
+            telemetry.addData("State: ", "3");
             telemetry.update();
-            strafeLeft(0.4, 14);
+            goForward(0.4,38);
             state = 4;
         }
-        sleep(500);
         if (state == 4){
-            telemetry.addData("State: ", state);
+            telemetry.addData("State: ", "4");
             telemetry.update();
-            gyroTurn(0.5, 0);
+            setLiftPosition(LIFT_UP_SKYSTONE_FOUNDATION,.7);
             state = 5;
         }
-        if (state == 5){
-            telemetry.addData("State: ", state);
+        if (state == 5) { //strafe left to wall
+            telemetry.addData("State: ", "5");
             telemetry.update();
-            goForward(0.4, 26);
-            gyroTurn(0.5, 0);
+            strafeLeft(0.5, 7);
             state = 6;
         }
-        sleep(500);
         if (state == 6){
-            telemetry.addData("State: ", state);
+            telemetry.addData("State: ", "6");
             telemetry.update();
-            setLiftPosition(0, 0.2);
+            setLiftPosition(2000,.7);
             state = 7;
-        }
-        if (state == 7){
-            telemetry.addData("State: ", state);
+            }
+        if (state == 7) { //strafe left to wall
+            telemetry.addData("State: ", "7");
             telemetry.update();
-            strafeRight(0.5,16);
+            strafeRight(0.5, 62);
             state = 8;
         }
-        if (state == 8){
-            telemetry.addData("State: ", state);
-            telemetry.update();
-            gyroTurn(0.5, 100);
-            gyroTurn(0.5, 90);
-            state = 9;
-        }
-        if (state == 9){
-            telemetry.addData("State: ", state);
-            telemetry.update();
-            strafeLeft(0.5,36);
-            state = 10;
-        }
-        if (state == 10){
-            telemetry.addData("State: ", state);
-            telemetry.update();
-            gyroTurn(0.5, 90);
-            state = 11;
-        }
-        if(state == 11){
-            telemetry.addData("State: ", state);
-            telemetry.update();
-            goForward(0.5, 6);
-            state = 12;
-        }
-        if (state == 12){
-            telemetry.addData("State: ", state);
-            telemetry.update();
-            setLiftPosition(2000, 0.5);
-            state = 13;
-        }
-        if (state == 13){
-            telemetry.addData("State: ", state);
-            telemetry.update();
-            goBackward(0.5, 32);
-            state = 14;
-        }
-        if (state == 14){
-            telemetry.addData("State: ", state);
-            telemetry.update();
-            setLiftPosition(0, 0.5);
-            setClawPosition(0, 0.5);
-        }
-
-
+            if (state == 8){ //to reset the claw encoder values when CompDrive starts
+                telemetry.addData("State","8");
+                telemetry.update();
+                setClawPosition(CLAW_MIN_CLOSED,1);
+                state = 9;
+            }
+            if (state == 9){ //to reset the claw encoder values when CompDrive starts
+                telemetry.addData("State","9");
+                telemetry.update();
+                setLiftPosition(LIFT_BOTTOM_MIN,.7);
+                stopMotors(); 
+            }
     }
 }
