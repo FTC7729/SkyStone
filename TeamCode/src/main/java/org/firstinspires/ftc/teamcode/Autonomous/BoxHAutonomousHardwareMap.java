@@ -110,7 +110,7 @@ public abstract class BoxHAutonomousHardwareMap extends LinearOpMode {
                 stopMotors();
                 break;
             }
-            turnRight(k * error + kInt * eInt);
+            turnLeft(k * error + kInt * eInt);
             idle();
         }
     }
