@@ -33,7 +33,7 @@ public class G9BlueBuildRobertZone extends G9F9AutonomousHardwareMap {
         if (state == 3){
             telemetry.addData("State: ", state);
             telemetry.update();
-            strafeLeft(0.4, 14);
+            strafeLeft(0.4, 13);
             state = 4;
         }
         sleep(500);
@@ -105,7 +105,9 @@ public class G9BlueBuildRobertZone extends G9F9AutonomousHardwareMap {
             telemetry.update();
             setLiftPosition(0, 0.5);
             setClawPosition(0, 0.5);
+            state = 15;
         }
+
 
 
     }
