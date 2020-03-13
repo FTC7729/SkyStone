@@ -2,13 +2,19 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-@Autonomous(name = "RedStone&Park", group = "Stone")
+import static org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit.mmPerInch;
+
+@Autonomous(name = "RedStoneWithVuforia&ParkTest", group = "Stone")
 public class G9F9RedLoadAutoTest extends G9F9AutonomousHardwareMap{
     //autonomous for the redloadzone
+    //144 in is a full field
+    //72 half a field
+    //36 is a quarter of a field
     public void runOpMode(){
         int state = 0;
         if (state == 0){
             //init robot
+            telemetry.setAutoClear(false);
             init(hardwareMap);
             waitForStart();
             //initvuforia(); //this can take a few seconds to init so think about removing this to save time
@@ -18,19 +24,26 @@ public class G9F9RedLoadAutoTest extends G9F9AutonomousHardwareMap{
         if (state == 1){    //prepares the claw to grab stone
             telemetry.addData("State","1");
             telemetry.update();
-            setClawPosition(CLAW_MAX_OPEN,.8);
-            // updatevuforia();
+            //setClawPosition(CLAW_MAX_OPEN,.8);
+            //updatevuforia();
             //encoderDrive(.5 , 72,72,72,72,5);
             state = 2;
         }
         if (state == 2) {   //moves forward to grab stone ... watch for speed of robot
             telemetry.addData("State","2");
             telemetry.update();
-            goForward(.4,38);
+            /*if (targetVisible){
+                updatevuforia();
+                if (translation.get(1)/mmPerInch = )
+               */
+            goForward(.5,17);
+            initvuforia();
+            updatevuforia();
+            stopMotors();
             //strafeLeftEncoder(.5,48,20);      ....maybe implement later if we have time
-            state = 3;
+            //state = 3;
         }
-        if (state == 3) { //grabs stone to move across the bridge
+        /*if (state == 3) { //grabs stone to move across the bridge
             telemetry.addData("State","3");
             telemetry.update();
             setClawPosition(CLAW_CLOSED_ON_SKYSTONE,.8);
@@ -76,6 +89,13 @@ public class G9F9RedLoadAutoTest extends G9F9AutonomousHardwareMap{
             telemetry.addData("State","10");
             telemetry.update();
             setLiftPosition(LIFT_BOTTOM_MIN,.4);
+            state = 11;
+        }
+        if (state == 11){ //to reset the claw encoder values when CompDrive starts
+
+            telemetry.addData("State","7");
+            telemetry.update();
+            setClawPosition(CLAW_MIN_CLOSED,.8);
             stopMotors();
         }
         //think about adding a state to reorient robot forward for teleop vv
@@ -86,6 +106,7 @@ public class G9F9RedLoadAutoTest extends G9F9AutonomousHardwareMap{
             gyroturn(.5,90);
             stopMotors();
         } */
+
     }
 
 
