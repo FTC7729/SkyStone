@@ -99,7 +99,7 @@ import java.util.Locale;
  * @see <a href="https://ae-bst.resource.bosch.com/media/_tech/media/datasheets/BST_BNO055_DS000_14.pdf">BNO055 specification</a>
  */
 @TeleOp(name = "Sensor: BNO055 IMU Calibration", group = "Sensor")
-@Disabled                            // Uncomment this to add to the opmode list
+//@Disabled                            // Comment this to remove from the opmode list
 public class SensorBNO055IMUCalibration extends LinearOpMode
     {
     //----------------------------------------------------------------------------------------------
@@ -136,6 +136,7 @@ public class SensorBNO055IMUCalibration extends LinearOpMode
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
 
+        // Set up our telemetry dashboard
         composeTelemetry();
         telemetry.log().add("Waiting for start...");
 
@@ -147,8 +148,9 @@ public class SensorBNO055IMUCalibration extends LinearOpMode
 
         telemetry.log().add("...started...");
 
+        //loops if the opmode is active on the phone
         while (opModeIsActive()) {
-
+            //if 'A' button is pressed
             if (gamepad1.a) {
 
                 // Get the calibration data
@@ -184,6 +186,10 @@ public class SensorBNO055IMUCalibration extends LinearOpMode
                 // Acquiring the angles is relatively expensive; we don't want
                 // to do that in each of the three items that need that info, as that's
                 // three times the necessary expense.
+                    // AxesReference is the difference between if the axes have intrinsic rotations,
+                    // where the axes move with the object that is rotating, or extrinsic rotations,
+                    // where they remain fixed in the world around the object.
+                    // AxesOrder is the order in which the separate axes are calibrated chronologically.
                 angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
                 }
             });
